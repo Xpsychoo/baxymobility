@@ -1,0 +1,28 @@
+.footer{
+    position: relative;
+    background-color: #ad2528;
+    padding: 10px 60px;
+    color:  #fff;
+
+    .icons{
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        
+        .icon{
+            color: white;
+            padding: 5px;
+            margin: 5px;
+            font-size: 20px;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .footer{
+        .icons{
+            justify-content: center;
+        }
+    }
+}

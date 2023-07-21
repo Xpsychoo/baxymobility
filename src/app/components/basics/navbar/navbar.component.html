@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navBarCustom">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="">
+            <img src="/assets/images/baxy-logo.svg" alt="Baxy">
+        </a>
+        <button *ngIf="isLoggedin"class="navbar-toggler" (click)="navbarSupportedContent.open()" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fa fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" #navbarSupportedContent="ngbDropdown" ngbDropdown
+            id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 desktopview mb-lg-0">               
+                <div *ngIf="isLoggedin" class="nav-item nav-buttons" title="More">
+                    <div class="profileBtnSec" ngbDropdown #myDrop="ngbDropdown">
+                        <button type="button" class="btn btn-Profile" id="dropdownManual" ngbDropdownAnchor
+                            (focus)="myDrop.open()">
+                            <img src="/assets/images/avatar.png" alt="home">
+                           <!--  <div class="text">
+                                <div class="name">User Name</div>
+                                <div class="post">Admin</div>
+                            </div> -->
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                            <div ngbDropdownItem> Profile </div>
+                            <div ngbDropdownItem> Change Password </div>
+                            <div (click)="setConfirmBox(true)" ngbDropdownItem> Logout </div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+<app-confirmbox [confirmText]="'Logout'" *ngIf="confirmBox" (setConfirmBox)="setConfirmBox(false)" (submitFunc)="LogoutFunc()"></app-confirmbox>

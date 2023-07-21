@@ -1,0 +1,57 @@
+<div class="main-wrapper">
+    <div class="sign-in-wrapper">
+        <div class="signinMain">
+
+            <form [formGroup]="loginForm" (ngSubmit)="submitHandler()">
+                <div class="animatedicon">
+                    <!-- <div class="header"> Sign-in </div> -->
+                    <img src="/assets/images/main-logo.jpg" alt="icons">
+                    <div class="textSec">
+                        <div class="line-under">
+                            Please login to continue
+                        </div>
+                    </div>
+                </div>
+                <div class="inputBox">
+                    <label for="email"> Email </label>
+                    <input formControlName="email" type="text" placeholder="Enter Email" name="email"
+                        [ngClass]="{ 'form-control': true, 'is-invalid': email && email.invalid && email.touched }" />
+                    <div class="form-error-message" *ngIf="email && email.invalid && email.touched"> Invalid Email
+                    </div>
+                </div>
+                <div class="inputBox">
+                    <label for="password"> Password </label>
+                    <input formControlName="password" type="text" placeholder="Enter Password" name="password"
+                        [ngClass]="{ 'form-control': true, 'is-invalid': password && password.invalid && password.touched }" />
+                    <div class="form-error-message" *ngIf="password && password.invalid && password.touched">
+                        Password is Empty</div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <button [disabled]="loginForm.invalid" type="submit" class="btn btn-danger"> Submit </button>
+                    <a routerLink="/forgotpwd" class="text-decoration-none text-dark">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal_component">
+        <ng-template #otpModal let-modal>
+            <div class="modal_component">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enter OTP</h4>
+                </div>
+                <form [formGroup]="otpForm" (ngSubmit)="otpSubmit()">
+                    <div class="modal-body">
+                        <div class="input-box">
+                            <label for="otpVal">OTP</label>
+                            <input id="otpVal" formControlName="userOtp" type="number" maxlength="4"
+                                placeholder="Enter OTP" class="form-control" (keypress)="onInputKeypress($event)" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button [disabled]="!otpForm.valid" type="submit" class="btn btn-primary">Submit OTP</button>
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+    </div>
+</div>

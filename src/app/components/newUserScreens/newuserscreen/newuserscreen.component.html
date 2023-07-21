@@ -1,0 +1,63 @@
+<div class="screenwrapper">
+    <h2 class="page-head">New Sub-Dealer Creation</h2>
+    <div class="form-table-screen">
+        <div class="addformBox col-md-5 col-xl-4 col-sm-12 col-12 pe-md-4">
+            <form class="pageform" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box">
+                            <label for="name" class="form-check-label">User Name</label>
+                            <input type="text" placeholder="Enter User Name" id="name" name="name" class="form-control"
+                                [(ngModel)]="newItem.name">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box">
+                            <label for="number" class="form-check-label">Contact No </label>
+                            <input type="number" id="number" placeholder="Enter Contact No" name="contact"
+                                class="form-control" [(ngModel)]="newItem.contact">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box">
+                            <label for="email" class="form-check-label">Email </label>
+                            <input type="email" id="email" placeholder="Enter Email" name="email" class="form-control"
+                                [(ngModel)]="newItem.email">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box">
+                            <label class="form-check-label">Functional Area</label>
+                            <div class="radioboxwrapper">
+                                <div class="radiobox">
+                                    <input type="radio" name="functionarea" id="Allarea" class="form-check-input"
+                                        [(ngModel)]="newItem.functionArea" value="All">
+                                    <label class="form-check-label" for="Allarea">All</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" name="functionarea" id="Allsale" class="form-check-input"
+                                        [(ngModel)]="newItem.functionArea" value="Sale">
+                                    <label class="form-check-label" for="Allsale">Sale</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" name="functionarea" id="Service" class="form-check-input"
+                                        [(ngModel)]="newItem.functionArea" value="Service">
+                                    <label class="form-check-label" for="Service">Service</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-btn pt-4">
+                        <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="viewTableBox col-md-7 col-xl-8 col-sm-12 col-12">
+            <div class="table-box">
+                <h2 class="table-head">Users List</h2>
+                <app-userstable></app-userstable>
+            </div>
+        </div>
+    </div>
+</div>

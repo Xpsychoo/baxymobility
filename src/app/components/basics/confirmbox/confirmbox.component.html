@@ -1,0 +1,10 @@
+<div class="confirmBox">
+    <div class="main-box-inside">
+      <div class="text-head">Are You Sure you want to {{confirmText}} ?</div>
+      <div class="btn-row">
+        <button class="btn btn-grey me-3" (click)="setConfirmBox.emit(false)">Cancel</button>
+        <button class="btn btn-primary" (click)="submitFunc.emit()">Confirm</button>
+      </div>
+    </div>
+  </div>
+  

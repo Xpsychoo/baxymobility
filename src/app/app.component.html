@@ -1,0 +1,22 @@
+<div [ngClass]="isLoggedin ? 'content' : 'content login'">
+  <app-navbar></app-navbar>
+  <div class="maincontent">
+    <!-- Rendered when user is not logged in -->
+    <ng-container *ngIf="!isLoggedin">
+      <router-outlet></router-outlet>
+    </ng-container>
+
+    <!-- Rendered when user is logged in -->
+    <ng-container *ngIf="isLoggedin">
+      <div class="contentWrapper">
+        <app-sidebar></app-sidebar>
+        <div class="content" [ngClass]="{'full': isSidebarOpen}">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <app-footer></app-footer>
+</div>
+
+

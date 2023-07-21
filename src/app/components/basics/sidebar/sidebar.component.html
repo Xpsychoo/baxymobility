@@ -1,0 +1,31 @@
+<aside class="sidebar" [ngClass]="{ 'close': isSidebarOpen }">
+  <div class="position-sticky side-main">
+    <div class="sideToggle">
+      <i class="fas fa-bars sideToggler" (click)="toggleSidebar()"></i>
+    </div>
+    <ul class="nav sidelists flex-column">
+      <li class="nav-item" *ngFor="let link of sidebarLinks; let i = index;">
+        <div class="nav-link" (click)="showDropDown(i)">
+          <div class="link" *ngIf="!link.route" >
+            <img [src]="'/assets/images/sidebaricons/' + link.icon + '.png'" [alt]="link.icon" (click)="toggleSidebar()">
+            <span class="text"> {{ link.label }}</span>
+          </div>
+          <a *ngIf="link.route" class="link" [routerLink]="[link.route]" routerLinkActive="active">
+            <img [src]="'/assets/images/sidebaricons/' + link.icon + '.png'" [alt]="link.icon" (click)="toggleSidebar()">
+           <span class="text"> {{ link.label }}</span></a>
+          <div *ngIf="link.submenu.length>0 && !link.showMenu" class=" arrow">
+            <i class="fa fa-caret-down"></i>
+          </div>
+          <div *ngIf="link.submenu.length>0 && link.showMenu" class=" arrow" (click)="showDropDown(i)">
+            <i class="fa fa-caret-up"></i>
+          </div>
+        </div>
+        <ul *ngIf="link.showMenu" class="nav childList flex-column">
+          <li *ngFor="let item of link.submenu">
+            <a class="nav-link" [routerLink]="[item.route]" routerLinkActive="active">{{ item.label }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</aside>

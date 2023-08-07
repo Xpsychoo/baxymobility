@@ -1,0 +1,78 @@
+.filter-box {
+    .text-head {
+        font-size: 17px;
+        display: inline-block;
+        position: relative;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #cccccc;
+
+    }
+}
+
+.form-box {
+    &.jobsradio {
+        display: flex;
+        align-items: center;
+        overflow: auto;
+
+        .main {
+            margin-right: 20px;
+            min-width: 15%;
+        }
+    }
+}
+
+.tablewrapper {
+    width: 100%;
+    overflow: auto;
+
+    .table {
+        thead>tr>th {
+            background-color: #8e8e8e;
+            color: #fff;
+            white-space: nowrap;
+            padding: 10px;
+        }
+
+        tr{
+            width: 100%;
+            
+            td{
+                .form-control {
+                    padding: 4px 7px 2px;
+                    font-size: 14px;
+                    font-weight: normal;
+                    line-height: 1.35;
+                }
+
+                .btn{
+                    margin: 0px 5px;
+                }
+            }
+        }
+    }
+}
+.radioboxwrapper{
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 990px) {
+    .form-box {
+        &.jobsradio {
+            display: block;
+
+            .main {
+                margin-right: 20px;
+                min-width: 10%;
+            }
+
+            .radioboxwrapper {
+                display: block;
+
+                .radiobox {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}

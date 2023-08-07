@@ -9,6 +9,7 @@ import { SidebarServiceService } from './services/sidebar/sidebar-service.servic
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title: string = 'Home';
   isLoggedin: boolean = false;
   isSidebarOpen: boolean = false;
   constructor(

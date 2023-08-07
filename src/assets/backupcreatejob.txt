@@ -1,0 +1,414 @@
+<div class="screenwrapper">
+    <h2 class="page-head">Create New Job Card</h2>
+    <form class="filter-box" [formGroup]="SearchByChasis" (ngSubmit)="searchbychasisSubmit()">
+        <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+            <div class="form-box ">
+                <label for="Chassis_Number"> Chasis Number </label>
+                <input type="text" id="Chassis_Number" name="Chassis_Number" formControlName="Chassis_Number"
+                    class="form-control" placeholder="Chasis number">
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-sm-12 col-12 btn-box">
+            <button type="submit" class="btn btn-danger">Search</button>
+            <button type="button" class="btn ms-3 btn-cancel" (click)="SearchByChasisReset()">Refresh</button>
+        </div>
+    </form>
+
+    <div class="vehicle-details">
+        <form class="filter-box" [formGroup]="vehicleDetails" (ngSubmit)="vehicleDetailSubmit()">
+            <div class="col-12">
+                <h2 class="text-head">Vehicle Details :-</h2>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Chassis_Number"> Chasis Number </label>
+                    <input type="text" id="Chassis_Number" name="Chassis_Number" formControlName="Chassis_Number"
+                        class="form-control" placeholder="Enter Chasis number">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Item_Code"> Material Code </label>
+                    <input type="text" id="Item_Code" name="Item_Code" formControlName="Item_Code" class="form-control"
+                        placeholder="Enter Material Code">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Vehicle_Regn_No"> Vehicle Regn No</label>
+                    <input type="text" id="Vehicle_Regn_No" name="Vehicle_Regn_No" formControlName="Vehicle_Regn_No"
+                        class="form-control" placeholder="Enter Vehicle Regn No">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Vehicle_Model"> Vehicle Model </label>
+                    <input type="text" id="Vehicle_Model" name="Vehicle_Model" formControlName="Vehicle_Model"
+                        class="form-control" placeholder="Enter Vehicle Model">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Year_of_Mfg"> Year of Mfg </label>
+                    <input type="number" placeholder="YYYY" min="1800" max="2023" id="Year_of_Mfg" name="Year_of_Mfg"
+                        formControlName="Year_of_Mfg" class="form-control" />
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Engine_No"> Engine No. </label>
+                    <input type="text" id="Engine_No" name="Engine_No" formControlName="Engine_No" class="form-control"
+                        placeholder="Enter Engine No.">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Date_of_Sale"> Date of Sale </label>
+                    <input type="date" id="Date_of_Sale" name="Date_of_Sale" formControlName="Date_of_Sale"
+                        class="form-control" placeholder="Enter Date of Sale">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="kms_covered"> Kms. Covered </label>
+                    <input type="number" id="kms_covered" name="kms_covered" formControlName="kms_covered"
+                        class="form-control" placeholder="Enter Kms. Covered">
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <h2 class="text-head">Customer Details :-</h2>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Customer_Name"> Customer Name </label>
+                    <input type="text" id="Customer_Name" name="Customer_Name" formControlName="Customer_Name"
+                        class="form-control" placeholder="Enter Customer Name">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Customer_Mobile_No"> Customer Mobile No </label>
+                    <input type="number" id="Customer_Mobile_No" name="Customer_Mobile_No"
+                        formControlName="Customer_Mobile_No" class="form-control"
+                        placeholder="Enter Customer Mobile No ">
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Address"> Address </label>
+                    <input type="text" id="Address" name="Address" formControlName="Address" class="form-control"
+                        placeholder="Enter Customer Address  ">
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <h2 class="text-head">Service Details :-</h2>
+            </div>
+            <div class="col-xl-8 col-md-8 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label class="form-check-label main">Warranty Type :</label>
+                    <div class="radioboxwrapper">
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="Warranty_Type"
+                                value="Within Warranty" id="Within_Warranty">
+                            <label class="form-check-label" for="Within_Warranty">Within Warranty</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="Warranty_Type"
+                                value="Privilege" id="Privilege">
+                            <label class="form-check-label" for="Privilege">Privilege</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="Warranty_Type"
+                                value="Suraksha/AMC" id="Suraksha_AMC">
+                            <label class="form-check-label" for="Suraksha_AMC">Suraksha/AMC</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="Warranty_Type"
+                                value="Paid Service" id="Paid_Service">
+                            <label class="form-check-label" for="Paid_Service">Paid Service</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="Warranty_Type"
+                                value="Accident Job" id="Accident_Job">
+                            <label class="form-check-label" for="Accident_Job">Accident Job</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-md-8 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label class="form-check-label main">Service No :</label>
+                    <div class="radioboxwrapper">
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="1"
+                                id="1st">
+                            <label class="form-check-label" for="1st">1</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="2"
+                                id="2nd">
+                            <label class="form-check-label" for="2nd">2</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="3"
+                                id="3rd">
+                            <label class="form-check-label" for="3rd">3</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="4"
+                                id="4th">
+                            <label class="form-check-label" for="4th">4</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="5"
+                                id="5th">
+                            <label class="form-check-label" for="5th">5</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="6"
+                                id="6th">
+                            <label class="form-check-label" for="6th">6</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" value="7"
+                                id="7th">
+                            <label class="form-check-label" for="7th">7</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-7 col-md-7 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label for="job_description" class="form-check-label main">Job Description :</label>
+                    <textarea rows="3" type="text" id="job_description" name="job_description"
+                        formControlName="job_description" class="form-control" placeholder="Job Description"></textarea>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <h2 class="text-head">Spare Part/Service List :-</h2>
+            </div>
+            <div class="tablewrapper">
+                <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Line Item</th>
+                            <th>Service Type</th>
+                            <th>Service Item</th>
+                            <th>MRP</th>
+                            <th>Dealer Price</th>
+                            <th>SGST</th>
+                            <th>CGST</th>
+                            <th>IGST</th>
+                            <th>Total Price</th>
+                            <th>Quantity</th>
+                            <th>G.Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of partandservicesArr; let index = index;">
+                            <td>{{item.LineItem}}</td>
+                            <td>
+                                <select *ngIf="index === partandservicesArr.length - 1" name="ServiceType"
+                                    class="form-control" (change)="handleChange( $event, 'ServiceType',item, index)">
+                                    <option value="">Select Service Type</option>
+                                    <option value="Labour Activity">Labour Activity</option>
+                                    <option value="Spare Part">Spare Part</option>
+                                </select>
+                                <span class="text" *ngIf="index !== partandservicesArr.length - 1">
+                                    {{item.ServiceType}}
+                                </span>
+                            </td>
+                            <td>
+                                <select *ngIf="index === partandservicesArr.length - 1" name="ServiceCode"
+                                    class="form-control" (change)="handleChange( $event, 'ServiceCode',item, index)">
+                                    <option value="">Select Service Item</option>
+                                    <option value={{item.ServiceCode}} *ngFor="let item of serviceItemList">
+                                        {{item.ServiceDesc}}
+                                    </option>
+                                </select>
+                                <span class="text" *ngIf="index !== partandservicesArr.length - 1">
+                                    {{item.ServiceCode}}
+                                </span>
+                            </td>
+                            <td>{{item.MRP}}</td>
+                            <td>{{item.DealerPrice}}</td>
+                            <td>{{item.SGST}}</td>
+                            <td>{{item.CGST}}</td>
+                            <td>{{item.IGST}}</td>
+                            <td>{{item.TotalPrice}}</td>
+                            <td>
+                                <input type="number" *ngIf="index === partandservicesArr.length - 1"
+                                    placeholder="Enter Quantity" [value]="item.Quantity" name="Quantity"
+                                    class="form-control" (change)="handleChange($event, 'Quantity', item, index)">
+                                <span class="text" *ngIf="index !== partandservicesArr.length - 1">
+                                    {{item.Quantity}}
+                                </span>
+                            </td>
+                            <td>{{item.GTotal}}</td>
+                            <td>
+                                <div class="table-actionbuttons">
+                                    <button type="button" *ngIf="index === partandservicesArr.length - 1"
+                                        class="btn btn-danger" (click)="addPartListRow()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button type="button" *ngIf="index !== partandservicesArr.length - 1"
+                                        class="btn btn-danger" (click)="deletePartListRow(index)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Labour_Charges"> Labour Charges </label>
+                    <input type="text" id="Labour_Charges" name="Labour_Charges" formControlName="Labour_Charges"
+                        class="form-control" placeholder="Enter Labour Charges">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Estimated_repair_Service_Cost"> Estimated Repair Cost (Rs) </label>
+                    <input type="number" id="Estimated_repair_Service_Cost" name="Estimated_repair_Service_Cost"
+                        formControlName="Estimated_repair_Service_Cost" class="form-control"
+                        placeholder="Enter Estimated Repair Cost">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Estimated_Delivered_Date"> Estimated Delivered Date </label>
+                    <input type="date" id="Estimated_Delivered_Date" name="Estimated_Delivered_Date"
+                        formControlName="Estimated_Delivered_Date" class="form-control"
+                        placeholder="Enter Chasis number">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Estimated_Delivered_Time"> Estimated Delivered Time </label>
+                    <input type="time" id="Estimated_Delivered_Time" name="Estimated_Delivered_Time"
+                        formControlName="Estimated_Delivered_Time" class="form-control"
+                        placeholder="Enter Chasis number">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="BayIn_Date"> Bay In Date </label>
+                    <input type="date" id="BayIn_Date" name="BayIn_Date" formControlName="BayIn_Date"
+                        class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="BayIn_Time"> Bay In Time </label>
+                    <input type="time" id="BayIn_Time" name="BayIn_Time" formControlName="BayIn_Time"
+                        class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="BayOut_Date"> Bay Out Date </label>
+                    <input type="date" id="BayOut_Date" name="BayOut_Date" formControlName="BayOut_Date"
+                        class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="BayOut_Time"> Bay Out Time </label>
+                    <input type="time" id="BayOut_Time" name="BayOut_Time" formControlName="BayOut_Time"
+                        class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Technician_Name"> Technician Name </label>
+                    <input type="text" id="Technician_Name" name="Technician_Name" formControlName="Technician_Name"
+                        class="form-control" placeholder="Enter Technician Name">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Job_Card_Prepared_by"> Job Card Prepared by </label>
+                    <input type="text" id="Job_Card_Prepared_by" name="Job_Card_Prepared_by"
+                        formControlName="Job_Card_Prepared_by" class="form-control"
+                        placeholder="Enter Job Card Prepared by">
+                </div>
+            </div>
+            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label class="form-check-label main">Accessories Available :</label>
+                    <div class="radioboxwrapper">
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessorie_RearViewMirror"
+                                id="Accessorie_RearViewMirror">
+                            <label class="form-check-label" for="Accessorie_RearViewMirror">Rear View Mirror</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" id="Accessories_ToolKitJack"
+                                formControlName="Accessories_ToolKitJack">
+                            <label class="form-check-label" for="Accessories_ToolKitJack">Tool Kit & Jack</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_Battery"
+                                id="Accessories_Battery">
+                            <label class="form-check-label" for="Accessories_Battery">Battery</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_Fan"
+                                id="Accessories_Fan">
+                            <label class="form-check-label" for="Accessories_Fan">Fan</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_RubberMats"
+                                id="Accessories_RubberMats">
+                            <label class="form-check-label" for="Accessories_RubberMats">Rubber Mats</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_SunShield"
+                                id="Accessories_SunShield">
+                            <label class="form-check-label" for="Accessories_SunShield">Sun Shield</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_SpareWheel"
+                                id="Accessories_SpareWheel">
+                            <label class="form-check-label" for="Accessories_SpareWheel">Spare Wheel</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_WheelCase"
+                                id="Accessories_WheelCase">
+                            <label class="form-check-label" for="Accessories_WheelCase">Wheel Case</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_AudioSystem"
+                                id="Accessories_AudioSystem">
+                            <label class="form-check-label" for="Accessories_AudioSystem">Audio System</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_Fuel"
+                                id="Accessories_Fuel">
+                            <label class="form-check-label" for="Accessories_Fuel">Fuel</label>
+                        </div>
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" formControlName="Accessories_Quantity"
+                                id="Accessories_Quantity">
+                            <label class="form-check-label" for="Accessories_Quantity">Quantity</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="DamageifAny"> Damage if Any </label>
+                    <textarea type="text" rows="5" id="DamageifAny" name="DamageifAny" formControlName="DamageifAny"
+                        class="form-control" placeholder="Enter if there is any damage">
+                    </textarea>
+                </div>
+            </div>
+            <div class="col-12 submit-btn">
+                <button class="btn btn-danger">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

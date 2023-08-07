@@ -1,0 +1,98 @@
+<div class="screenwrapper">
+    <h2 class="page-head">Stock Receiving Report</h2>
+    <form class="filter-box" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+        <div class="col-xl-2 col-md-2 col-sm-6 col-6">
+            <div class="form-box">
+                <label for="ChassisNumber"> Chassis Number </label>
+                <input type="text" class="form-control" id="ChassisNumber" name="ChassisNumber"
+                    formControlName="ChassisNumber" placeholder="Chassis Number">
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-2 col-sm-6 col-6">
+            <div class="form-box">
+                <label for="MaterialCode"> Material Code </label>
+                <input type="text" id="MaterialCode" name="MaterialCode" class="form-control"
+                    formControlName="MaterialCode" placeholder="Material Code">
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-2 col-sm-6 col-6">
+            <div class="form-box">
+                <label for="Receiving_Status"> Receiving Status </label>
+                <select name="Receiving_Status" id="Receiving_Status" class="form-control"
+                    formControlName="Receiving_Status">
+                    <option value="">Select Status</option>
+                    <option value={{item.Receiving_Status}} *ngFor="let item of reportStatusList">
+                        {{item.Receiving_Status}}
+                    </option>
+                </select>
+            </div>
+
+        </div>
+        <div class="col-xl-2 col-md-2 col-sm-6 col-6">
+            <div class="form-box">
+                <label for="InvoiceNumber"> Invoice Number </label>
+                <input type="text" id="InvoiceNumber" name="InvoiceNumber" class="form-control"
+                    formControlName="InvoiceNumber" placeholder="Invoice Number">
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+            <div class="form-box from-to">
+                <label for="dates"> Entry Date </label>
+                <div class="inputsWrapper">
+                    <label for="formdate" class="text">from</label>
+                    <input type="date" id="formdate" name="formdate" formControlName="formdate" class="form-control"
+                        placeholder="Invoice Number">
+                    <label for="todate" class="text center">to</label>
+                    <input type="date" id="todate" name="todate" class="form-control" formControlName="todate"
+                        placeholder="Invoice Number">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-1 col-md-1 col-sm-12 col-12 submit-btns">
+            <button type="submit" class="btn btn-danger">Search</button>
+            <button type="button" (click)="resetForm()" class="btn btn-cancel">Refresh</button>
+        </div>
+    </form>
+    <div class="table-box" *ngIf="reportsList?.length">
+        <h2 class="table-head">Stock Receiving Reports</h2>
+        <div class="tablewrapper">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Line Item</th>
+                        <th>Vendor Code </th>
+                        <th>Material Code</th>
+                        <th>Material Description</th>
+                        <th>Chassis Number</th>
+                        <th>EngineNumber</th>
+                        <th>Receiving Status</th>
+                        <th>Remarks</th>
+                        <th>Missed Items List</th>
+                        <th>Attachment (1)</th>
+                        <th>Attachment (2)</th>
+                        <th>Attachment (3)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of reportsList">
+                        <td>{{item.InvoiceNumber}}</td>
+                        <td>{{item.LineItem}}</td>
+                        <td>{{item.VendorCode}}</td>
+                        <td>{{item.MaterialCode}}</td>
+                        <td>{{item.MaterialDescrition}}</td>
+                        <td>{{item.ChassisNumber}}</td>
+                        <td>{{item.EngineNumber}}</td>
+                        <td>{{item.Receiving_Status}}</td>
+                        <td>{{item.Remarks}}</td>
+                        <td>{{item.MissedItems}}</td>
+                        <td [innerHTML]="validUrl(item.Attachment1_Name)"></td>
+                        <td [innerHTML]="validUrl(item.Attachment2_Name)"></td>
+                        <td [innerHTML]="validUrl(item.Attachment3_Name)"></td>
+                      </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

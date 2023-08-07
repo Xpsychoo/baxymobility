@@ -1,0 +1,200 @@
+<div class="screenwrapper">
+    <h2 class="page-head">Create New Job Card</h2>
+    <form class="filter-box" [formGroup]="SearchByChasis" (ngSubmit)="searchbychasisSubmit()">
+        <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+            <div class="form-box ">
+                <label for="Chassis_Number"> Chasis Number </label>
+                <input type="text" id="Chassis_Number" name="Chassis_Number" formControlName="Chassis_Number"
+                    class="form-control" placeholder="Chasis number">
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-sm-12 col-12 btn-box">
+            <button type="submit"  [disabled]="SearchByChasis.invalid"  class="btn btn-danger">Search</button>
+            <button type="button" class="btn ms-3 btn-cancel" (click)="SearchByChasisReset()">Refresh</button>
+        </div>
+    </form>
+
+    <div class="vehicle-details">
+        <form class="filter-box" [formGroup]="vehicleDetails" (ngSubmit)="vehicleDetailSubmit()">
+            <div class="col-12">
+                <h2 class="text-head">Vehicle Details :-</h2>
+            </div>
+            <ng-container *ngFor="let field of formDataService.vehicleformFields">
+                <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                    <div class="form-box">
+                        <label [for]="field.id">{{ field.label }}</label>
+                        <input [type]="field.type" [id]="field.id" [name]="field.id"
+                            [formControlName]="field.formControlName" class="form-control"
+                            [placeholder]="field.placeholder">
+                    </div>
+                </div>
+            </ng-container>
+            <div class="col-12 mt-3">
+                <h2 class="text-head">Customer Details :-</h2>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Customer_Name"> Customer Name </label>
+                    <input type="text" id="Customer_Name" name="Customer_Name" formControlName="Customer_Name"
+                        class="form-control" placeholder="Enter Customer Name">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Customer_Mobile_No"> Customer Mobile No </label>
+                    <input type="number" id="Customer_Mobile_No" name="Customer_Mobile_No"
+                        formControlName="Customer_Mobile_No" class="form-control"
+                        placeholder="Enter Customer Mobile No ">
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="Address"> Address </label>
+                    <input type="text" id="Address" name="Address" formControlName="Address" class="form-control"
+                        placeholder="Enter Customer Address  ">
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <h2 class="text-head">Service Details :-</h2>
+            </div>
+            <div class="col-xl-8 col-md-8 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label class="form-check-label main">Warranty Type :</label>
+                    <div class="radioboxwrapper" *ngFor="let option of formDataService.radioOptions">
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="Warranty_Type"
+                                [value]="option.value" [id]="option.id">
+                            <label class="form-check-label" [for]="option.id">{{ option.label }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-md-8 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label class="form-check-label main">Service No :</label>
+                    <div class="radioboxwrapper" *ngFor="let value of [1, 2, 3, 4, 5, 6, 7]">
+                        <div class="radiobox">
+                            <input type="radio" class="form-check-input" formControlName="service_no" [value]="value"
+                                [id]="value + 'th'">
+                            <label class="form-check-label me-2" [for]="value + 'th'">{{ value }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-7 col-md-7 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label for="job_description" class="form-check-label main">Job Description :</label>
+                    <textarea rows="3" type="text" id="job_description" name="job_description"
+                        formControlName="job_description" class="form-control" placeholder="Job Description"></textarea>
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <h2 class="text-head">Spare Part/Service List :-</h2>
+            </div>
+            <div class="tablewrapper">
+                <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th
+                                *ngFor="let value of ['Line Item', 'Service Type', 'Service Item', 'MRP', 'Dealer Price', 'SGST', 'CGST','IGST','Total Price','Quantity','G.Total','Action']">
+                                {{value}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of partandservicesArr; let index = index;">
+                            <td>{{item.LineItem}}</td>
+                            <td>
+                                <ng-container *ngIf="index === partandservicesArr.length - 1; else textDisplay1">
+                                    <select name="ServiceType" class="form-control"
+                                        (change)="handleChange($event, 'ServiceType', item, index)">
+                                        <option value="">Select Service Type</option>
+                                        <option value="Labour Activity">Labour Activity</option>
+                                        <option value="Spare Part">Spare Part</option>
+                                    </select>
+                                </ng-container>
+                                <ng-template #textDisplay1>
+                                    <span class="text">{{item.ServiceType}}</span>
+                                </ng-template>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="index === partandservicesArr.length - 1; else textDisplay2">
+                                    <select name="ServiceCode" class="form-control"
+                                        (change)="handleChange($event, 'ServiceCode', item, index)">
+                                        <option value="">Select Service Item</option>
+                                        <option value="{{item.ServiceCode}}" *ngFor="let item of serviceItemList">
+                                            {{item.ServiceDesc}}</option>
+                                    </select>
+                                </ng-container>
+                                <ng-template #textDisplay2>
+                                    <span class="text">{{item.ServiceCode}}</span>
+                                </ng-template>
+                            </td>
+                            <td>{{item.MRP}}</td>
+                            <td>{{item.DealerPrice}}</td>
+                            <td>{{item.SGST}}</td>
+                            <td>{{item.CGST}}</td>
+                            <td>{{item.IGST}}</td>
+                            <td>{{item.TotalPrice}}</td>
+                            <td>
+                                <ng-container *ngIf="index === partandservicesArr.length - 1; else textDisplay3">
+                                    <input type="number" placeholder="Enter Quantity" [value]="item.Quantity"
+                                        name="Quantity" class="form-control"
+                                        (change)="handleChange($event, 'Quantity', item, index)">
+                                </ng-container>
+                                <ng-template #textDisplay3>
+                                    <span class="text">{{item.Quantity}}</span>
+                                </ng-template>
+                            </td>
+                            <td>{{item.GTotal}}</td>
+                            <td>
+                                <div class="table-actionbuttons">
+                                    <button type="button" *ngIf="index === partandservicesArr.length - 1"
+                                        class="btn btn-danger" (click)="addPartListRow()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button type="button" *ngIf="index !== partandservicesArr.length - 1"
+                                        class="btn btn-danger" (click)="deletePartListRow(index)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-xl-3 col-md-3 col-sm-12 col-12" *ngFor="let field of formDataService.formFields">
+                <div class="form-box">
+                    <label [for]="field.id">{{ field.label }}</label>
+                    <input [type]="field.type" [id]="field.id" [name]="field.id"
+                        [formControlName]="field.formControlName" class="form-control"
+                        [placeholder]="field.placeholder">
+                </div>
+            </div>
+            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                <div class="form-box jobsradio">
+                    <label class="form-check-label main">Accessories Available :</label>
+                    <div class="radioboxwrapper" *ngFor="let accessory of formDataService.accessories">
+                        <div class="radiobox">
+                            <input type="checkbox" class="form-check-input" [id]="accessory.id"
+                                [formControlName]="accessory.formControlName">
+                            <label class="form-check-label" [for]="accessory.id">{{ accessory.label }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                <div class="form-box">
+                    <label for="DamageifAny"> Damage if Any </label>
+                    <textarea type="text" rows="5" id="DamageifAny" name="DamageifAny" formControlName="DamageifAny"
+                        class="form-control" placeholder="Enter if there is any damage">
+                    </textarea>
+                </div>
+            </div>
+            <div class="col-12 submit-btn">
+                <button class="btn btn-danger" [disabled]="SearchByChasis.invalid" >Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -8,3 +8,35 @@
         
     }
 }
+.homescreen{
+    width: 90vw;
+    margin: auto;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    .text-box{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 30px;
+        font-weight: 600;
+    }
+
+    img{
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 900px) {
+    .homescreen{
+        .text-box{
+            margin-bottom: 20px;
+        }
+    }
+
+}

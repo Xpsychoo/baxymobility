@@ -1,0 +1,343 @@
+<div class="screenwrapper">
+    <h2 class="page-head">Save Daily Reporting Details</h2>
+    <div class="form-table-screen d-flex">
+        <!-- form search  -->
+        <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()">
+            <div class="row d-flex align-items-center justify-content-start">
+                <div class="col-xl-3 col-md-6 col-sm-6 col-6">
+                    <div class="form-box">
+                        <label for="CustomerContactNo" class="form-check-label">Customer's Mobile No : </label>
+                        <input type="text" id="CustomerContactNo"  name="CustomerContactNo" formControlName="CustomerContactNo"
+                            class="form-control" >
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-sm-6 col-6">
+                    <div class="form-box">
+                        <label for="VehicleModel" class="form-check-label">Vehicle Model
+                            <span class="text-danger" >*</span>
+                        </label>
+                            <select type="text" id="VehicleModel"  name="VehicleModel"
+                            class="form-control" formControlName="VehicleModel" > 
+                                <option value="">SELECT MODEL</option>
+                                <option value={{item.ModelCode}} *ngFor="let item of modelList">{{item.ModelDesc}}</option>
+                            </select>
+                        
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-sm-6 col-6">
+                    <div class="form-box">
+                        <label for="Bookingformdate" class="form-check-label">From Date </label>
+                        <input type="date" id="Bookingformdate"  name="Bookingformdate" formControlName="Bookingformdate"
+                            class="form-control" >
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-sm-6 col-6" >
+                    <div class="form-box">
+                        <label for="Bookingtodate" class="form-check-label"> To Date </label>
+                        <input type="date" id="Bookingtodate"  name="Bookingtodate" formControlName="Bookingtodate"
+                        class="form-control">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-sm-6 col-6 d-flex justify-content-start">
+                    <div class="form-box ">
+                        <button class="searchattandance btn btn-secondary" >Submit</button>
+                    </div>
+                    <div class="form-box ms-2">
+                        <button type="button" (click)="resetForm()" class="searchattandance btn btn-secondary" >Reset</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- table screen -->
+        <div class="viewTableBox col-md-7 col-xl-7 col-sm-12 col-12 pe-2">
+            <div class="table-box"  *ngIf="bookingReportList.length > 0">
+                <!-- Table start -->
+                <!-- <app-dailyreporttable></app-dailyreporttable> -->
+                <div class="table-box mt-2">
+                    <div class="tablewrapper">
+                        <table class="table table-striped table-responsive">
+                            <thead>
+                                <tr> 
+                                    <th>Select</th>
+                                    <th>Bookin ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer COntactNo .</th>
+                                    <th>Vehicle Model</th>
+                                    <th>Entry Date</th>
+                                    <th>Booking Status</th>
+                                    <th>Booking Remarks</th>
+                                </tr>
+            
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of bookingReportList">
+                                    <td class="cursor text-primary" (click)="fillUpdateForm(item.Sl)">Select</td>
+                                    <td>{{item.Sl}}</td>
+                                    <td>{{item["Customer Name"]}}</td>  
+                                    <td>{{item["Customer Contact No."]}}</td>  
+                                    <td>{{item["Vehicle Model"]}}</td>  
+                                    <td>{{item["Created Date"]}}</td>  
+                                    <td>{{item["Booking Status"]}}</td>  
+                                    <td>{{item["Booking Remarks"]}}</td>  
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- form screen -->
+
+        <div class="addformBox col-md-5 col-xl-5 col-sm-12 col-12">
+            <form  class="pageform" [formGroup]="salesBookingForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box ">
+                            <label for="number" class="form-check-label"> Booking Id
+                                <span class="error-message" >*</span>
+                            </label>
+                            <p  class="form-control">
+                                {{!DMSSave_BookingRequest? salesBookingForm.get('BookingRequestID')?.value: "New Request" }} </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6">
+                        <div class="form-box ">
+                            <label for="CustomerName" class="form-check-label">Customer Name
+                                <span class="text-danger" >*</span>
+                            </label>
+                            <input type="text" id="CustomerName"  name="CustomerName"
+                            class="form-control" formControlName="CustomerName" >
+                            
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6">
+                        <div class="form-box ">
+                            <label for="CustomerMobileNo" class="form-check-label">Customer Mobile no 
+                                <span class="text-danger" >*</span>
+                            </label>
+                            <input type="text" id="CustomerMobileNo"  name="CustomerMobileNo"
+                            class="form-control" formControlName="CustomerMobileNo" >
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6">
+                        <div class="form-box">
+                            <label for="VehicleModel" class="form-check-label">Vehicle Model
+                                <span class="text-danger" >*</span>
+                            </label>
+                            
+                                <select type="text" id="VehicleModel"  name="VehicleModel"
+                                class="form-control" formControlName="VehicleModel" > 
+                                    <option value="">SELECT MODEL</option>
+                                    <option value={{item.ModelCode}} *ngFor="let item of modelList">{{item.ModelDesc}}</option>
+                                </select>
+                            
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="DeliveryDate" class="form-check-label"> Booking to Date </label>
+                            <input type="date" id="DeliveryDate" formControlName="DeliveryDate" name="DeliveryDate"
+                            class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12 d-flex align-items-end">
+                        <div class="form-box d-flex align-items-end justify-content-between">
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <label class="form-check-label">Payment Type
+                                    <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="PaymentType" name="PaymentType" id="Cash" class="form-check-input"
+                                    value="Yes">
+                                    <label class="form-check-label" for="Cash">Cash</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="PaymentType" name="PaymentType" id="Retail_Finance" class="form-check-input"
+                                        value="Retail Finance">
+                                    <label class="form-check-label" for="Retail_Finance">Retail Finance</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12 d-flex align-items-end">
+                        <div class="form-box d-flex align-items-center justify-content-between">
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <label class="form-check-label">MOU
+                                </label>
+                            </div>
+                            <div class="radioboxwrapper mx-3 d-flex align-items-end">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="isMOU" name="isMOU" id="Yes" class="form-check-input"
+                                    value="Yes">
+                                    <label class="form-check-label" for="Yes">Yes</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="isMOU" name="isMOU" id="No" class="form-check-input"
+                                        value="No">
+                                    <label class="form-check-label" for="No">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box ">
+                            <label for="FILoginDate" class="form-check-label"> FI Login Date </label>
+                            <input type="date" id="FILoginDate" formControlName="FILoginDate"  name="FILoginDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box ">
+                            <label for="CIBILDoneDate" class="form-check-label"> CIBIL Done Date</label>
+                            <input type="date" id="CIBILDoneDate" formControlName="CIBILDoneDate"  name="CIBILDoneDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box ">
+                            <label for="FIDoneDate" class="form-check-label"> FI Fone Date </label>
+                            <input type="date" id="FIDoneDate" formControlName="FIDoneDate"  name="FIDoneDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12 d-flex align-items-end">
+                        <div class="form-box d-flex align-items-end justify-content-between">
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <label class="form-check-label">FI Positive Negative</label>
+                            </div>
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="FIPositiveNegative" name="FIPositiveNegative" id="FIYes" class="form-check-input"
+                                    value="Yes">
+                                    <label class="form-check-label" for="FIYes">Yes</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="FIPositiveNegative" name="FIPositiveNegative" id="FINo" class="form-check-input"
+                                        value="No">
+                                    <label class="form-check-label" for="FINo">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="FileLoginDate" class="form-check-label"> File Login Date </label>
+                            <input type="date" id="FileLoginDate" formControlName="FileLoginDate"  name="FileLoginDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box ">
+                            <label for="IfNotSubmittedReasonforDelay" class="form-check-label"> If Not Submitted,
+                                Reason for Delay  </label>
+                            <input type="text" id="IfNotSubmittedReasonforDelay" formControlName="IfNotSubmittedReasonforDelay" name="CollectionAmount"
+                            class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box ">
+                            <label for="LoanAmountApproved" class="form-check-label"> Loan Amount Approved </label>
+                            <input type="text" id="LoanAmountApproved" formControlName="LoanAmountApproved" name="CollectionAmount"
+                            class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="DownPaymentRCD" class="form-check-label"> Down Payment RCD </label>
+                            <input type="text" id="DownPaymentRCD" formControlName="DownPaymentRCD" name="CollectionAmount"
+                            class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12 d-flex align-items-end">
+                        <div class="form-box d-flex align-items-end justify-content-between">
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <label class="form-check-label">D.O. Received Yes/No :</label>
+                            </div>
+                            
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="isDOReceived" name="isDOReceived" id="DOYes" class="form-check-input"
+                                    value="Yes">
+                                    <label class="form-check-label" for="DOYes">Yes</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="isDOReceived" name="isDOReceived" id="DONo" class="form-check-input"
+                                        value="No">
+                                    <label class="form-check-label" for="DONo">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="DOReceivedDate" class="form-check-label"> DO Received Date </label>
+                            <input type="date" id="DOReceivedDate" formControlName="DOReceivedDate"  name="DOReceivedDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="PaymentExpectedDate" class="form-check-label"> Payment Expected Date </label>
+                            <input type="date" id="PaymentExpectedDate" formControlName="PaymentExpectedDate"  name="PaymentExpectedDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="PaymentRCVDDate" class="form-check-label"> Payment RCVD Date </label>
+                            <input type="date" id="PaymentRCVDDate" formControlName="PaymentRCVDDate"  name="PaymentRCVDDate"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" >
+                        <div class="form-box">
+                            <label for="Remarks" class="form-check-label"> Remarks</label>
+                            <input type="text" id="Remarks" formControlName="Remarks" name="Remarks"
+                            class="form-control" >
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12 d-flex" *ngIf="!DMSSave_BookingRequest">
+                        <div class="form-box d-flex align-items-end justify-content-between">
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <label class="form-check-label">Current Status</label>
+                            </div>
+                            <div class="radioboxwrapper mx-2 d-flex align-items-end">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="StatusID" name="StatusID" id="SI" class="form-check-input"
+                                    value="11">
+                                    <label class="form-check-label" for="SI">Yes</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="StatusID" name="StatusID" id="SI1" class="form-check-input"
+                                        value="21">
+                                    <label class="form-check-label" for="SI1">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" *ngIf="!DMSSave_BookingRequest">
+                        <div class="form-box">
+                            <label for="Status_Remarks" class="form-check-label"> Status Remarks</label>
+                            <input type="text" id="Status_Remarks" formControlName="Status_Remarks" name="Status_Remarks"
+                            class="form-control" >
+                        </div>
+                    </div>
+                    
+                    <div class="submit-btn pt-4" *ngIf="DMSSave_BookingRequest">
+                        <button type="submit" class="btn btn-danger">ADD</button>
+                    </div>
+                    <div class="submit-btn pt-4" *ngIf="!DMSSave_BookingRequest">
+                        <button type="submit" class="btn btn-danger">UPDATE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

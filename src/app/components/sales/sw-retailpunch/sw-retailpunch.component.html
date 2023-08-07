@@ -1,0 +1,299 @@
+<div class="screenwrapper">
+    <h2 class="page-head">Retail Punch</h2>
+    <div class="form-table-screen d-flex">
+        <!-- form search  -->
+        <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="submitForm()">
+            <div class="row d-flex align-items-end justify-content-start">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+                    <div class="form-box d-flex align-items-center">
+                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-3 col-3">
+                            <label for="ChassisNumber" class="form-check-label">Chassis Number :</label>
+                        </div>
+                        <div class="col-xl-10 col-lg-8 col-md-8 col-sm-9 col-9">
+                            <input type="text" id="ChassisNumber"  name="ChassisNumber" formControlName="ChassisNumber"
+                            class="form-control" >
+                        </div>    
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-12 d-flex justify-content-start">
+                    <div class="form-box ">
+                        <button class="searchattandance btn btn-secondary" [disabled]="searchForm.invalid" >Validate Chassis Number</button>
+                    </div>
+                    <div class="form-box ms-2">
+                        <button type="button" class="searchattandance btn btn-secondary" (click)="resetForm()" [disabled]="searchForm.invalid" >Refresh</button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h6 class="text-danger ">
+                    {{swRespoceText}}
+                </h6>
+            </div>
+        </form>
+        <!-- table screen -->
+        <div class="row d-flex w-100" *ngIf="showData">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-12 pe-2 order-1 mt-md-2 mt-2">
+                <div class="screenwrapper">
+                    <div class="form-table-screen d-flex">
+                        <form class="pageform" [formGroup]="deatilForm" (ngSubmit)="onSubmit()">
+                            <div class="row align-items-center">
+                                <div class=" col-xl-5 col-md-12 col-sm-12 col-12 row d-flex">
+                                    <div class="col-12">
+                                        <div class="form-box d-flex">
+                                            <div class="radioboxwrapper mx-2 d-flex ">  
+                                                <label for="name" class="form-check-label">Dealer Bill Number  
+                                                <span class="error-message" >*</span>
+                                            </label></div>
+                                            <div class="radioboxwrapper mx-2 d-flex ">
+                                                <input type="text" formControlName="Dealer_Bill_Number" name="Dealer_Bill_Number" id="Dealer_Bill_Number" class="form-control"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-box d-flex">
+                                            <div class="radioboxwrapper mx-2 d-flex ">  
+                                                <label for="name" class="form-check-label">Dealer Bill Date :  
+                                                <span class="error-message" >*</span>
+                                            </label></div>
+                                            <div class="radioboxwrapper mx-2 d-flex ">
+                                                <input type="date" formControlName="Dealer_Bill_Date" name="Dealer_Bill_Date" id="Dealer_Bill_Date" class="form-control"
+                                                >
+                                            </div>
+                                         </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-box d-flex align-items-center">
+                                            <div class="radioboxwrapper mx-2 d-flex">  
+                                                <label for="BookingID" class="form-check-label">Booking ID : </label>
+                                            </div>
+                                            <div class="radioboxwrapper d-flex align-items-center">
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control"  id="BookingID" name="BookingID" formControlName="BookingID"
+                                                     aria-label="BookingID" aria-describedby="basic-addon2">
+                                                    <div class="input-group-append">
+                                                      <i class="fa fa-search search" id="basic-addon2" (click)="openModalofChild()"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 ">
+                                        <div class="form-box d-flex">
+                                            <div class="radioboxwrapper mx-2 d-flex ">
+                                                <label class="form-check-label">Super Warranty
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="radioboxwrapper mx-2 d-flex">
+                                                <div class="radiobox">
+                                                    <input type="radio" formControlName="SuperWarranty" name="SuperWarranty" id="Yes" class="form-check-input"
+                                                    value="Yes">
+                                                    <label class="form-check-label" for="Yes">Yes</label>
+                                                </div>
+                                                <div class="radiobox">
+                                                    <input type="radio" formControlName="SuperWarranty" name="SuperWarranty" id="No" class="form-check-input"
+                                                        value="No">
+                                                    <label class="form-check-label" for="No">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-12 d-flex">
+                                        <div class="form-box d-flex">
+                                            <div class="radioboxwrapper mx-2 d-flex ">
+                                                <label class="form-check-label">Payment Type
+                                                    <span class="text-danger">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="radioboxwrapper mx-2 d-flex ">
+                                                <div class="radiobox">
+                                                    <input type="radio" formControlName="Payment_Type" name="Payment_Type" id="Cash" class="form-check-input"
+                                                    value="Cash">
+                                                    <label class="form-check-label" for="Cash">Cash</label>
+                                                </div>
+                                                <div class="radiobox">
+                                                    <input type="radio" formControlName="Payment_Type" name="Payment_Type" id="Retail_Finance" class="form-check-input"
+                                                        value="Retail Finance">
+                                                    <label class="form-check-label" for="Retail_Finance">Retail Finance</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-7 col-md-12 col-sm-12 col-12 row d-flex ps-5">
+                                    <h3 class="mb-3">Fill Customer's Details :</h3>
+                                    <!-- other details -->
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="Customer_Name" class="form-check-label">Name
+                                                <span class="error-message" >*</span>
+                                            </label>
+                                            <input type="text" formControlName="Customer_Name" name="Customer_Name" id="Customer_Name" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="Customer_MobileNo" class="form-check-label">Mobile No
+                                                <span class="error-message" >*</span>
+                                            </label>
+                                            <input type="text" formControlName="Customer_MobileNo" name="Customer_MobileNo" id="Customer_MobileNo" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="name" class="form-check-label">Alternate Mobile No  </label>
+                                            <input type="text" formControlName="Customer_AltMobileNo" name="Customer_AltMobileNo" id="Customer_AltMobileNo" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="Email" class="form-check-label">Email  </label>
+                                            <input type="email" formControlName="Email" name="Email" id="Email" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="Address_Line1" class="form-check-label">Address Line 1
+                                                <span class="error-message" >*</span>
+                                            </label>
+                                            <input type="text" formControlName="Address_Line1" name="Address_Line1" id="Address_Line1" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="Address_Line2" class="form-check-label">Address Line 2
+                                            </label>
+                                            <input type="text" formControlName="Address_Line2" name="Address_Line2" id="Address_Line2" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="State" class="form-check-label">State
+                                                <span class="error-message" >*</span>
+                                            </label>
+                                            <select formControlName="State" type="text" placeholder="Select" id="State" name="State" class="form-control" ngModel>
+                                                <option value="">Select State</option>
+                                                <option *ngFor="let item of stateList" value={{item.State_Name}}>{{item.State_Name}}</option>
+                                            </select>
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="City" class="form-check-label">City
+                                                <span class="error-message" >*</span>
+                                            </label>
+                                            <input type="text" formControlName="City" name="City" id="City" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                                        <div class="form-box">
+                                            <label for="PinCode" class="form-check-label">Pin Code
+                                                <span class="error-message" >*</span>
+                                            </label>
+                                            <input type="text" formControlName="PinCode" name="PinCode" id="PinCode" class="form-control"
+                                            >
+                
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="submit-btn pt-4 pageform">
+                                    <button type="submit" [disabled]="deatilForm.invalid"  class="btn btn-danger">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                    </div>
+            
+                </div>
+            </div>
+            <!-- show side data -->
+            <div class="col-xl-4 col-lg-4 col-md-12 col-12 order-lg-1 mt-2">
+                <div class="screenwrapper">
+                    <div class="form-table-screen d-flex">
+                        <div class="pageform">
+                            <div class="col-12">
+                                <div class="form-box d-flex">
+                                    <div class="radioboxwrapper mx-2 d-flex ">  
+                                        <label for="name" class="form-check-label">Invoice Number :
+                                        
+                                    </label></div>
+                                    <div class="radioboxwrapper mx-2 d-flex ">
+                                        <p>{{sideDetail.InvoiceDate}}</p>
+                                    </div>
+                                 </div>
+                            </div>
+
+
+
+                            <div class="col-12">
+                                <div class="form-box d-flex">
+                                    <div class="radioboxwrapper mx-2 d-flex ">  
+                                        <label for="name" class="form-check-label">Invoice Number :
+                                       
+                                    </label></div>
+                                    <div class="radioboxwrapper mx-2 d-flex ">
+                                       <p>{{sideDetail.InvoiceNumber}}</p>
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-box d-flex">
+                                    <div class="radioboxwrapper mx-2 d-flex ">  
+                                        <label for="name" class="form-check-label">Material Code :
+                                        
+                                    </label></div>
+                                    <div class="radioboxwrapper mx-2 d-flex ">
+                                        <p>{{sideDetail.MaterialCode}}</p>
+                                    </div>
+                                 </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-box d-flex">
+                                    <div class="radioboxwrapper mx-2 d-flex ">  
+                                        <label for="name" class="form-check-label">Material Description :
+                                       
+                                    </label></div>
+                                    <div class="radioboxwrapper mx-2 d-flex ">
+                                        <p>{{sideDetail.MaterialDescrition}}</p>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+       
+        <!-- form screen -->
+    </div>
+
+     <!-- Model open -->
+   
+
+    <!-- Modal template -->
+    <app-searchbookingcode (bookingCode)="setCode($event)"></app-searchbookingcode>
+    <!-- Model close -->
+</div>

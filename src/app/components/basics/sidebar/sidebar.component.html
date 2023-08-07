@@ -6,11 +6,11 @@
     <ul class="nav sidelists flex-column">
       <li class="nav-item" *ngFor="let link of sidebarLinks; let i = index;">
         <div class="nav-link" (click)="showDropDown(i)">
-          <div class="link" *ngIf="!link.route" >
+          <div class="link" *ngIf="!link.route">
             <img [src]="'/assets/images/sidebaricons/' + link.icon + '.png'" [alt]="link.icon" (click)="toggleSidebar()">
             <span class="text"> {{ link.label }}</span>
           </div>
-          <a *ngIf="link.route" class="link" [routerLink]="[link.route]" routerLinkActive="active">
+          <a *ngIf="link.route" class="link" (click)="closeSideBar()" [routerLink]="[link.route]" routerLinkActive="active">
             <img [src]="'/assets/images/sidebaricons/' + link.icon + '.png'" [alt]="link.icon" (click)="toggleSidebar()">
            <span class="text"> {{ link.label }}</span></a>
           <div *ngIf="link.submenu.length>0 && !link.showMenu" class=" arrow">
@@ -22,7 +22,7 @@
         </div>
         <ul *ngIf="link.showMenu" class="nav childList flex-column">
           <li *ngFor="let item of link.submenu">
-            <a class="nav-link" [routerLink]="[item.route]" routerLinkActive="active">{{ item.label }}</a>
+            <a class="nav-link" [routerLink]="[item.route]" (click)="closeSideBar()" routerLinkActive="active">{{ item.label }}</a>
           </li>
         </ul>
       </li>

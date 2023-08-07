@@ -61,6 +61,18 @@
             .dropdown-menu {
                 left: auto;
                 right: 0px;
+                padding: 0px;
+
+                .userProfileDetails{
+                    background-color: #efefef;
+                    .name{
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+                    .post{
+                        font-size: 15px;
+                    }
+                }
             }
         }
 /* 
@@ -122,6 +134,11 @@
 
     }
 
+    .navbar-brand{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
   
 }
 

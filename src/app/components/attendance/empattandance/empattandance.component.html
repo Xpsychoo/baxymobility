@@ -1,0 +1,79 @@
+<div class="tablewrapper">
+    <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div class="row d-flex align-items-center">
+            <div class="col-xl-3 col-md-6 col-sm-6 col-6">
+                <div class="form-box">
+                    <label for="Employeecode" class="form-check-label">Employee Code
+                        <span class="text-danger" *ngIf="searchForm.get('Employeecode')?.hasError('required')">*</span>
+                    </label>
+                    <div class="d-flex align-items-center">
+                        <input type="text"  id="Employeecode" name="Employeecode" formControlName="Employeecode"
+                        class="form-control search-input border-right-0" placeholder="enter employee code">
+                          <!-- Button to open the modal -->
+                        <i class="fa fa-search search" (click)="openModalofChild()"></i>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 col-sm-6 col-6">
+                <div class="form-box">
+                    <label for="number"  class="form-check-label">Attendance Date </label>
+                    <input type="date" id="formdate"  name="formdate" formControlName="formdate"
+                        class="form-control" >
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 col-sm-6 col-6" >
+                <div class="form-box">
+                    <label for="number" class="form-check-label"> To Date </label>
+                    <input type="date" id="todate"  name="todate" formControlName="todate"
+                    class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-4 col-sm-6 col-6 formButton d-flex align-items-end">
+                <div class="form-box mt-2">
+                    <button type="submit" class="searchattandance btn btn-danger rounded" 
+                    [ngClass]="{'disabled-cursor': searchForm.invalid}"  
+                    >Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="table-box"  *ngIf="punchAttandaceList.length >0">
+        <div class="tablewrapper">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr> 
+                        <th>User ID</th>
+                        <th>Attendance Date</th>
+                        <th>Attendance Purpose</th>
+                        <th>Leave Type</th>
+                        <th>Present</th>
+                        <th>Remarks</th>
+                        <th>Submitted Date</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of punchAttandaceList">
+                        <td>{{item["User ID"]}}</td>
+                        <td>{{item["Attendance Date"]}} </td>
+                        <td>{{item["Attendance Purpose"]}}</td>
+                        <td>{{item["Leave Type"]}}</td>
+                        <td>{{item.Present}}</td>
+                        <td>{{item.Remarks}}</td>
+                        <td>{{item["Submitted Date"]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Model open -->
+   
+
+    <!-- Modal template -->
+        <app-serachempcode (empCode)="setEmpCode($event)"></app-serachempcode>
+    <!-- Model close -->
+</div>

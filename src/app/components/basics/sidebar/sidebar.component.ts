@@ -20,49 +20,49 @@ export class SidebarComponent {
     { label: 'New User Creation', route: '/newusers', icon:'adduser', submenu: [], showMenu: false },
     {
       label: 'Attendance',  icon:'attendence',  route: false, submenu: [
-        { label: 'Punch Attendance', route: '/' },
-        { label: 'View Attendance', route: '/' }, 
-        { label: 'View Employees Attendance' , route: '/'}
+        { label: 'Punch Attendance', route: 'punchattendance' },
+        { label: 'View Attendance', route: '/punchattendance' }, 
+        { label: 'View Employees Attendance' , route: 'employeeattandance'}
       ], showMenu: false
     },
     {
       label: 'Daily Reporting', icon:'dailyreporting',  route: false, submenu: [
-        { label: 'Save Daily Reporting', route: '/' },
-        { label: 'Download Daily Reporting', route: '/' }, 
-        { label: 'View Employees Daily Reporting' , route: '/'}
+        { label: 'Save Daily Reporting', route: 'dailysavereport' },
+        { label: 'Download Daily Reporting', route: 'downloaddailyreporting' }, 
+        { label: 'View Employees Daily Reporting' , route: 'downloademployeedailyreporting'}
       ], showMenu: false
     },
 
     {
       label: 'Daily Visit Reporting', icon:'reports',  route: false, submenu: [
-        { label: 'Save Daily Visit Reporting', route: '/' },
-        { label: 'Download Daily Visit Reporting', route: '/' }, 
-        { label: 'View Employees Daily Visit Reporting' , route: '/'}
+        { label: 'Save Daily Visit Reporting', route: 'dailyvisitreport' },
+        { label: 'Download Daily Visit Reporting', route: 'dailyvisitreport' }, 
+        { label: 'View Employees Daily Visit Reporting' , route: 'downloadEmployeeDailyVisitReporting'}
       ], showMenu: false
     },
 
     {
       label: 'Stock', route: false, icon:'stock',  submenu: [
-        { label: 'In-Transit', route: '/' },
-        { label: 'Stock Receiving', route: '/' }, 
-        { label: 'Update Stock Receiving Status' , route: '/'},
-        { label: 'Stock Receiving Report' , route: '/'}
+        { label: 'In-Transit', route: '/viewInvoiceDetails' },
+        { label: 'Stock Receiving', route: '/stockReceiving' }, 
+        { label: 'Update Stock Receiving Status' , route: '/stockupdatestatus'},
+        { label: 'Stock Receiving Report' , route: '/stockReceivingReport'}
       ], showMenu: false
     },
     {
       label: 'Sales', route: false, icon:'sales',  submenu: [
-        { label: 'Booking', route: '/' },
-        { label: 'Booking Report', route: '/' }, 
-        { label: 'SW/Retail Punch' , route: '/'},
-        { label: 'SW/Retail Punch Report' , route: '/'},
-        { label: 'Update Form 22' , route: '/'},
+        { label: 'Booking', route: 'dmsbooking' },
+        { label: 'Booking Report', route: 'bookingreport' }, 
+        { label: 'SW/Retail Punch' , route: 'retailpunch'},
+        { label: 'SW/Retail Punch Report' , route: 'retailpunchreport'},
+        { label: 'Update Form 22' , route: 'uploadform22'},
       ], showMenu: false
     },
     {
       label: 'Service', route: false, icon:'service',  submenu: [
-        { label: 'Create New Job Card', route: '/' },
-        { label: 'Update Job Card', route: '/' }, 
-        { label: 'PrintJob Card' , route: '/'}
+        { label: 'Create New Job Card', route: '/createnewjob' },
+        { label: 'Update Job Card', route: '/jobupdate' }, 
+        { label: 'PrintJob Card' , route: '/printjob'}
       ], showMenu: false
     }
   ];
@@ -72,6 +72,12 @@ export class SidebarComponent {
     // close all other dropdown
     this.closeallotherDropDown(index)
   }
+
+  closeSideBar() {
+    if (window.innerWidth < 990) {
+      this.toggleSidebar();
+    }
+  }  
 
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar();

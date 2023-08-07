@@ -1,5 +1,8 @@
 <app-signin *ngIf="!isLoggedin"></app-signin>
 
-<h1 class="homescreen d-flex align-items-center justify-content-center h-100" *ngIf="isLoggedin">
-    Welcome to <img src="/assets/images/main-logo.jpg" alt="">
-</h1>
+<div class="homescreen" *ngIf="isLoggedin">
+   <div class="row align-items-center">
+    <div class="col-xl-4 col-md-4 col-sm-12 col-12 text-box"> Welcome to </div>
+    <div class="col-xl-8 col-md-8 col-sm-12 col-12"><img src="/assets/images/main-logo.jpg" alt=""></div>
+   </div>
+</div>

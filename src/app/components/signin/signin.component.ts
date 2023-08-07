@@ -29,31 +29,32 @@ export class SigninComponent {
   ) { }
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
+    userid: new FormControl('', [Validators.required]),
+    pass: new FormControl('', [Validators.required]),
   });
 
   otpForm = new FormGroup({
     userOtp: new FormControl('', [Validators.required]),
   });
 
-  submitHandler() {
-    console.log('clicked');
-    console.log(this.loginForm.value);
-    this.toastr.success('Logged in successfully!');
-    this.closeModal();
-    this.cookieService.set('token', 'token here');
-    this.cookieService.set('userInfo', 'userInfo here');
-    this.authSharedService.setIsLoggedIn(true);
-    /* this.userLoginService.userlogin(this.loginForm.value).subscribe(
-      (data: any) => {
-        this.toastr.success(data.message);
-        this.openModal();
+  submitHandler() {    
+    this.userLoginService.userlogin(this.loginForm.value).subscribe(
+      (response: any) => {
+        if (response.status == 200) {
+          this.toastr.success(response.Message);
+          this.closeModal();
+          this.cookieService.set('token', 'token here');
+          this.cookieService.set('userInfo', JSON.stringify(response.Detail));
+          this.authSharedService.setIsLoggedIn(true);
+        }else  {
+          this.toastr.error(response.Message)
+        }
       },
       (error: any) => {
-        this.toastr.error(error.error.error);
+        console.log(error);        
+        this.toastr.error(error.statusText);
       }
-    ); */
+    );
   }
 
   onInputKeypress(event: KeyboardEvent) {
@@ -80,7 +81,7 @@ export class SigninComponent {
         this.cookieService.set('token', data.acesstoken);
         this.cookieService.set('userInfo', userInfoString);
         this.otpForm.controls['userOtp'].setValue('');
-        this.router.navigate(['/fileupload']);
+        this.router.navigate(['/']);
         this.authSharedService.setIsLoggedIn(true);
       },
       (error: any) => {
@@ -98,11 +99,11 @@ export class SigninComponent {
     this.modalService.dismissAll();
   }
 
-  get email() {
-    return this.loginForm.get('email');
+  get userid() {
+    return this.loginForm.get('userid');
   }
 
-  get password() {
-    return this.loginForm.get('password');
+  get pass() {
+    return this.loginForm.get('pass');
   }
 }

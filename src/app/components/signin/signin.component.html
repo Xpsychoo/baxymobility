@@ -1,7 +1,6 @@
 <div class="main-wrapper">
     <div class="sign-in-wrapper">
         <div class="signinMain">
-
             <form [formGroup]="loginForm" (ngSubmit)="submitHandler()">
                 <div class="animatedicon">
                     <!-- <div class="header"> Sign-in </div> -->
@@ -13,17 +12,28 @@
                     </div>
                 </div>
                 <div class="inputBox">
-                    <label for="email"> Email </label>
-                    <input formControlName="email" type="text" placeholder="Enter Email" name="email"
-                        [ngClass]="{ 'form-control': true, 'is-invalid': email && email.invalid && email.touched }" />
-                    <div class="form-error-message" *ngIf="email && email.invalid && email.touched"> Invalid Email
+                    <label for="email"> UserId </label>
+                    <div [ngClass]="{ 'inputWrapper': true, 'error': userid && userid.invalid && userid.touched}">
+                        <div class="iconBox"><i class="fas fa-user"></i></div>
+                        <div class="inputs">
+                            <input formControlName="userid" type="text" placeholder="Enter userid" name="userid"
+                            [ngClass]="{ 'form-control': true, 'is-invalid': userid && userid.invalid && userid.touched }" />
+                        </div>
+                    </div>
+                    <div class="form-error-message" *ngIf="userid && userid.invalid && userid.touched"> Invalid Email
                     </div>
                 </div>
                 <div class="inputBox">
                     <label for="password"> Password </label>
-                    <input formControlName="password" type="text" placeholder="Enter Password" name="password"
-                        [ngClass]="{ 'form-control': true, 'is-invalid': password && password.invalid && password.touched }" />
-                    <div class="form-error-message" *ngIf="password && password.invalid && password.touched">
+                    <div [ngClass]="{ 'inputWrapper': true, 'error': pass && pass.invalid && pass.touched }">
+                        <div class="iconBox"><i class="fas fa-unlock-alt"></i></div>
+                        <div class="inputs">
+                            <input formControlName="pass" type="password" placeholder="Enter Password" name="password"
+                            [ngClass]="{ 'form-control': true, 'is-invalid': pass && pass.invalid && pass.touched }" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-error-message" *ngIf="pass && pass.invalid && pass.touched">
                         Password is Empty</div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between">

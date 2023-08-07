@@ -1,0 +1,122 @@
+<!-- HTML Template -->
+<div class="screenwrapper">
+    <h2 class="page-head">Stock Receiving - Update Status</h2>
+    <form class="filter-box" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+        <div class="col-xl-3 col-md-3 col-sm-6 col-6">
+            <div class="form-box">
+                <label for="Dealer_Code">Select Dealer</label>
+                <select name="Dealer_Code" id="Dealer_Code" class="form-control" formControlName="Dealer_Code">
+                    <option value="">Select Dealer</option>
+                    <option [value]="item.Dealer_Code" *ngFor="let item of dealesrList">{{ item.Dealer_Name }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-3 col-sm-6 col-6">
+            <div class="form-box">
+                <label for="Receiving_Status">Receiving Status</label>
+                <select name="Receiving_Status" id="Receiving_Status" class="form-control"
+                    formControlName="Receiving_Status">
+                    <option value="">Select Status</option>
+                    <option [value]="item.Receiving_Status" *ngFor="let item of reportStatusList">{{
+                        item.Receiving_Status }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-4 col-sm-12 col-12">
+            <div class="form-box from-to">
+                <label for="dates"> Entry Date </label>
+                <div class="inputsWrapper">
+                    <label for="Entry_StartDate" class="text">from</label>
+                    <input type="date" id="Entry_StartDate" name="Entry_StartDate" formControlName="Entry_StartDate"
+                        class="form-control" placeholder="Invoice Number">
+                    <label for="Entry_EndDate" class="text center">to</label>
+                    <input type="date" id="Entry_EndDate" name="Entry_EndDate" class="form-control"
+                        formControlName="Entry_EndDate" placeholder="Invoice Number">
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-2 col-md-2 col-sm-12 col-12 submit-btns">
+            <button type="submit" class="btn btn-danger">Search</button>
+            <button type="button" (click)="resetForm()" class="btn btn-cancel">Refresh</button>
+        </div>
+    </form>
+
+    <ng-container *ngIf="reportsList?.length">
+        <div class="table-box mb-4">
+            <div class="tablewrapper">
+                <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Invoice Number</th>
+                            <th>Line Item</th>
+                            <th>Vendor Code</th>
+                            <th>Material Code</th>
+                            <th>Material Description</th>
+                            <th>Chassis Number</th>
+                            <th>EngineNumber</th>
+                            <th>Receiving Status</th>
+                            <th>Remarks</th>
+                            <th>Missed Items List</th>
+                            <th>Attachment (1)</th>
+                            <th>Attachment (2)</th>
+                            <th>Attachment (3)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of reportsList">
+                            <td class="text-center">
+                                <input type="radio" (change)="selectItem(item)" *ngIf="item.Status !== 0" name="Stock_Receiving"
+                                    class="form-check-input cursor-pointer">
+                            </td>
+                            <td>{{ item.InvoiceNumber }}</td>
+                            <td>{{ item.LineItem }}</td>
+                            <td>{{ item.VendorCode }}</td>
+                            <td>{{ item.MaterialCode }}</td>
+                            <td>{{ item.MaterialDescription }}</td>
+                            <td>{{ item.ChassisNumber }}</td>
+                            <td>{{ item.EngineNumber }}</td>
+                            <td>{{ item.Receiving_Status }}</td>
+                            <td>{{ item.Remarks }}</td>
+                            <td>{{ item.MissedItems }}</td>
+                            <td [innerHTML]="validUrl(item.Attachment1_Name)"></td>
+                            <td [innerHTML]="validUrl(item.Attachment2_Name)"></td>
+                            <td [innerHTML]="validUrl(item.Attachment3_Name)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+    <p class="text-center p-5" *ngIf="!reportsList?.length">No Data Found</p>
+    <form class="filter-box d-block" (ngSubmit)="updateHandler()" *ngIf="checkFormtoDisplay()" #formRef="ngForm">
+        <div class="col-12">
+            <h2 class="page-head">Update Report</h2>
+        </div>
+        <div class="col-xl-3 col-md-3 col-sm-12 col-12">
+            <div class="form-box">
+                <label for="Receiving_Status"> Update Status </label>
+                <select name="Receiving_Status" #Receiving_Status (change)="changeHandler($event)"
+                    id="Receiving_Status" class="form-control" name="Receiving_Status">
+                    <option value="">Select Status</option>
+                    <option value={{item.Receiving_Status}} *ngFor="let item of reportStatusList">
+                        {{item.Receiving_Status}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+            <div class="form-box">
+                <label for="Remarks"> Remarks </label>
+                <textarea name="Remarks" #Remarks (change)="changeHandler($event)" id="Remarks" class="form-control"
+                    rows="4"></textarea>
+            </div>
+        </div>
+        <div class="col-xl-12 col-md-12 col-sm-12 col-12 py-2">
+            <button type="submit" class="btn btn-danger">Update</button>
+        </div>
+    </form>
+</div>

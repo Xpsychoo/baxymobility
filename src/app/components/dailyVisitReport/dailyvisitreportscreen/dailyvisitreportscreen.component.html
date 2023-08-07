@@ -1,0 +1,106 @@
+<div class="screenwrapper">
+    <h2 class="page-head">Save Daily Visit Report</h2>
+    <div class="form-table-screen">
+        <div class="addformBox col-md-5 col-xl-4 col-sm-12 col-12 pe-md-4">
+            <form class="pageform" [formGroup]="dailyvistForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box">
+                            <label for="number" class="form-check-label">  Report Date  
+                                <span class="error-message" *ngIf="">*</span>
+                            </label>
+                            <input type="date" id="ReportDate"  name="ReportDate" formControlName="ReportDate"
+                                class="form-control"  [min]="minDate | date : 'yyyy-MM-dd'" [max]="maxDate | date : 'yyyy-MM-dd'">
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12" >
+                        <div class="form-box">
+                            <label class="form-check-label">Entry Type
+                                <span class="error-message" *ngIf="">*</span>
+                            </label>
+                            <div class="radioboxwrapper">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="EntryType" name="EntryType" id="DVR" class="form-check-input"
+                                    value="DVR">
+                                    <label class="form-check-label" for="Sick">Dealer Visit Report</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio"  formControlName="EntryType" name="EntryType" id="OfficeWork" class="form-check-input"
+                                        value="Office Work">
+                                    <label class="form-check-label" for="Casual">Office Work</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="EntryType" name="EntryType" id="Earned" class="form-check-input"
+                                    value="Others">
+                                    <label class="form-check-label" for="Earned">Earned</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+   
+
+                    <div class="col-xl-6 col-md-6 col-sm-6 col-6" *ngIf="dailyvistForm.get('EntryType')?.value === 'DVR'">
+                        <div class="form-box">
+                            <label for="Dealer_Code" class="form-check-label">Dealers Code
+                                <span class="error-message"*ngIf="">*</span>
+                            </label>
+                            <div class="d-flex align-items-center">
+                                <input type="text" id="Dealer_Code"  name="Dealer_Code"
+                                class="form-control" formControlName="Dealer_Code" >
+                                  <!-- Button to open the modal -->
+                                <i class="fa fa-search mx-1 border p-2" (click)="openDealerCodeModel()"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12" *ngIf="dailyvistForm.get('EntryType')?.value === 'DVR'">
+                        <div class="form-box">
+                            <label class="form-check-label">Visit Type
+                                <span class="error-message" *ngIf="">*</span>
+                            </label>
+                            <div class="radioboxwrapper">
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="VisitType" name="VisitType" id="CustomerComplaint" class="form-check-input"
+                                    value="Customer Complaint">
+                                    <label class="form-check-label" for="Sick">Customer Complaint</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio"  formControlName="VisitType" name="VisitType" id="DealerIssue" class="form-check-input"
+                                        value="Dealer Issue">
+                                    <label class="form-check-label" for="Casual">Dealer Issue</label>
+                                </div>
+                                <div class="radiobox">
+                                    <input type="radio" formControlName="VisitType" name="VisitType" id="FieldVisit" class="form-check-input"
+                                    value="Others">
+                                    <label class="form-check-label" for="Earned">Field Visit</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-box">
+                            <label class="form-check-label">Remarks</label>
+                            <textarea type="text" id="Remarks" formControlName="Remarks" placeholder="Enter remark" name="Remarks"
+                            class="form-control"> </textarea>
+                        </div>
+                    </div>
+                    <div class="submit-btn pt-4">
+                        <button type="submit"   [ngClass]="{'disabled-cursor': dailyvistForm.invalid}" [disabled]="dailyvistForm.invalid" class="btn btn-danger">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+         <!-- Model for dealer code search -->
+         <app-searchdealercode (dealerCode)="setDealerCode($event)"></app-searchdealercode>
+         <!-- Model clode for deale code search -->
+
+         <!-- table -->
+        <div class="viewTableBox col-md-7 col-xl-8 col-sm-12 col-12">
+            <div class="table-box">
+                <app-dailyvisitreporttable></app-dailyvisitreporttable>
+            </div>
+        </div>
+    </div>
+</div>

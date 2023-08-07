@@ -2,27 +2,49 @@
     <h2 class="page-head">New Sub-Dealer Creation</h2>
     <div class="form-table-screen">
         <div class="addformBox col-md-5 col-xl-4 col-sm-12 col-12 pe-md-4">
-            <form class="pageform" (ngSubmit)="onSubmit()">
+            <form class="pageform mb-4" [formGroup]="newItemForm" (ngSubmit)="onSubmit()">
                 <div class="row">
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
-                            <label for="name" class="form-check-label">User Name</label>
-                            <input type="text" placeholder="Enter User Name" id="name" name="name" class="form-control"
-                                [(ngModel)]="newItem.name">
+                            <label for="name"> User Name </label>
+                            <div
+                                [ngClass]="{ 'inputWrapper': true, 'error': newItemForm.get('UserName')?.invalid && (newItemForm.get('UserName')?.touched || newItemForm.get('UserName')?.dirty) }">
+                                <input formControlName="UserName" type="text" placeholder="Enter Name" name="name"
+                                    [ngClass]="{ 'form-control': true, 'is-invalid': newItemForm.get('UserName')?.invalid && (newItemForm.get('UserName')?.touched || newItemForm.get('UserName')?.dirty) }" />
+                            </div>
+                            <div class="form-error-message"
+                                *ngIf="newItemForm.get('UserName')?.invalid && (newItemForm.get('UserName')?.touched || newItemForm.get('UserName')?.dirty)">
+                                Enter a Name
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
                             <label for="number" class="form-check-label">Contact No </label>
-                            <input type="number" id="number" placeholder="Enter Contact No" name="contact"
-                                class="form-control" [(ngModel)]="newItem.contact">
+                            <div
+                                [ngClass]="{ 'inputWrapper': true, 'error': newItemForm.get('ContactNo')?.invalid && (newItemForm.get('ContactNo')?.touched || newItemForm.get('ContactNo')?.dirty) }">
+                                <input formControlName="ContactNo" type="number" placeholder="Enter contact"
+                                    name="number"
+                                    [ngClass]="{ 'form-control': true, 'is-invalid': newItemForm.get('ContactNo')?.invalid && (newItemForm.get('ContactNo')?.touched || newItemForm.get('ContactNo')?.dirty) }" />
+                            </div>
+                            <div class="form-error-message"
+                                *ngIf="newItemForm.get('ContactNo')?.invalid && (newItemForm.get('ContactNo')?.touched || newItemForm.get('ContactNo')?.dirty)">
+                                Enter your Contact
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
                             <label for="email" class="form-check-label">Email </label>
-                            <input type="email" id="email" placeholder="Enter Email" name="email" class="form-control"
-                                [(ngModel)]="newItem.email">
+                            <div
+                                [ngClass]="{ 'inputWrapper': true, 'error': newItemForm.get('Email')?.invalid && (newItemForm.get('Email')?.touched || newItemForm.get('Email')?.dirty) }">
+                                <input formControlName="Email" type="email" placeholder="Enter Email" name="email"
+                                    [ngClass]="{ 'form-control': true, 'is-invalid': newItemForm.get('Email')?.invalid && (newItemForm.get('Email')?.touched || newItemForm.get('Email')?.dirty) }" />
+                            </div>
+                            <div class="form-error-message"
+                                *ngIf="newItemForm.get('Email')?.invalid && (newItemForm.get('Email')?.touched || newItemForm.get('Email')?.dirty)">
+                                Enter Valid Email
+                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
@@ -30,25 +52,27 @@
                             <label class="form-check-label">Functional Area</label>
                             <div class="radioboxwrapper">
                                 <div class="radiobox">
-                                    <input type="radio" name="functionarea" id="Allarea" class="form-check-input"
-                                        [(ngModel)]="newItem.functionArea" value="All">
+                                    <input type="radio" class="form-check-input" formControlName="Functional_Area"
+                                        value="C" id="Allarea">
                                     <label class="form-check-label" for="Allarea">All</label>
                                 </div>
                                 <div class="radiobox">
-                                    <input type="radio" name="functionarea" id="Allsale" class="form-check-input"
-                                        [(ngModel)]="newItem.functionArea" value="Sale">
+                                    <input type="radio" class="form-check-input" formControlName="Functional_Area"
+                                        value="A" id="Allsale">
                                     <label class="form-check-label" for="Allsale">Sale</label>
                                 </div>
                                 <div class="radiobox">
-                                    <input type="radio" name="functionarea" id="Service" class="form-check-input"
-                                        [(ngModel)]="newItem.functionArea" value="Service">
+                                    <input type="radio" class="form-check-input" formControlName="Functional_Area"
+                                        value="B" id="Service">
                                     <label class="form-check-label" for="Service">Service</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="submit-btn pt-4">
-                        <button type="submit" class="btn btn-danger">Submit</button>
+                        <button type="submit" class="btn btn-danger" [disabled]="newItemForm.invalid">
+                            {{ isEditMode ? 'Update' : 'Submit' }}
+                        </button>
                     </div>
                 </div>
             </form>

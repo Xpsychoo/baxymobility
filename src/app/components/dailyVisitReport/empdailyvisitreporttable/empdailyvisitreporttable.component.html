@@ -1,0 +1,84 @@
+<div class="tablewrapper">
+    <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div class="row d-flex">
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6">
+                <div class="form-box">
+                    <label for="Employeecode" class="form-check-label">Employee Code
+                        <span class="error-message" *ngIf="searchForm.get('Employeecode')?.hasError('required')">*</span>
+                    </label>
+                    <div class="d-flex align-items-center">
+                        <input type="text"  id="Employeecode" name="Employeecode" formControlName="Employeecode"
+                        class="form-control" placeholder="enter employee code">
+                          <!-- Button to open the modal -->
+                        <i class="fa fa-search mx-1 border p-2" (click)="openModalofChild()"></i>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6">
+                <div class="form-box">
+                    <label for="number"  class="form-check-label">Attendance Date </label>
+                    <input type="date" id="formdate"  name="formdate" formControlName="formdate"
+                        class="form-control" >
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6" >
+                <div class="form-box">
+                    <label for="number" class="form-check-label"> To Date </label>
+                    <input type="date" id="todate"  name="todate" formControlName="todate"
+                    class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4 col-sm-6 col-6 formButton  d-flex align-items-end">
+                <div class="form-box">
+                    <button type="submit" class="searchattandance btn btn-danger" 
+                    [ngClass]="{'disabled-cursor': searchForm.invalid}"  
+                    >Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="table-box"  *ngIf="empDailyVisitList.length >0">
+        <div class="tablewrapper">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr> 
+                        <th>RVid</th>
+                        <th>Report Date</th>
+                        <th>Entry Type</th>
+                        <th>Dealer Code</th>
+                        <th>Dealer Name</th>
+                        <th>Visit Type</th>
+                        <th>Remarks</th>
+                        <th>Submitted By</th>
+                        <th>Submitted Date</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of empDailyVisitList">
+                        <!-- <td>{{item["RVid"]}}</td>
+                        <td>{{item["Report Date"]}}</td>
+                        <td>{{item["EntryType"]}} </td>
+                        <td>{{item["Dealer Code"]}}</td>
+                        <td>{{item["Dealer Name"]}}</td>
+                        <td>{{item.VisitType}}</td>
+                        <td>{{item.Remarks}}</td>
+                        <td>{{item["Submitted By"]}}</td>
+                        <td>{{item["Submitted Date"]}}</td> -->
+                        <td *ngFor="let obj of item | value">{{ obj }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Model open -->
+   
+
+    <!-- Modal template -->
+        <app-serachempcode (empCode)="setEmpCode($event)"></app-serachempcode>
+    <!-- Model close -->
+</div>

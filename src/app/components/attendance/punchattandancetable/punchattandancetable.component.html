@@ -1,0 +1,55 @@
+<div class="">
+    <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div class="row d-flex">
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6">
+                <div class="form-box">
+                    <label for="number" class="form-check-label">Attendance Date </label>
+                    <input type="date" id="formdate"  name="formdate" formControlName="formdate"
+                        class="form-control" >
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6" >
+                <div class="form-box">
+                    <label for="number" class="form-check-label"> To Date </label>
+                    <input type="date" id="todate"  name="todate" formControlName="todate"
+                    class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4 col-sm-6 col-6 formButton">
+                <div class="form-box">
+                    <button class="searchattandance btn btn-secondary" >Submit</button>
+            </div>
+            </div>
+        </div>
+    </form>
+    <h2 class="table-head">Attandance List</h2>
+    <div class="table-box"  *ngIf="punchAttandaceList.length >0">
+        <div class="tablewrapper">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr> 
+                        <th>User ID</th>
+                        <th>Attendance Date</th>
+                        <th>Attendance Purpose</th>
+                        <th>Leave Type</th>
+                        <th>Present</th>
+                        <th>Remarks</th>
+                        <th>Submitted Date</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of punchAttandaceList">
+                        <td>{{item["User ID"]}}</td>
+                        <td>{{item["Attendance Date"]}} </td>
+                        <td>{{item["Attendance Purpose"]}}</td>
+                        <td>{{item["Leave Type"]}}</td>
+                        <td>{{item.Present}}</td>
+                        <td>{{item.Remarks}}</td>
+                        <td>{{item["Submitted Date"]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

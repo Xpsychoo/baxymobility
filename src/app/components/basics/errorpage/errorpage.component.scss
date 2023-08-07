@@ -61,3 +61,10 @@
     margin: 20px 0;
     display: inline-block;
 }
+
+@media screen and (max-width: 900px) {
+    .page_404 {
+        width: 90%;
+    }
+
+}

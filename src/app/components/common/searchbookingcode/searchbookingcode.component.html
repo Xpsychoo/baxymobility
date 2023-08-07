@@ -1,0 +1,87 @@
+
+<ng-template #xlModal let-modal>
+    <div class="modal-wrapper">
+        <div class="modal-header">
+            <h4 class="modal-title">Search Dealer</h4>
+            <button  type="button" class="btn btn-cancel" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="pageform mb-4 w-100" [formGroup]="dealerForm" (ngSubmit)="modal.close('submit clicked')">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 d-flex align-items-center">
+                        <div class="form-box">
+                            <div class="row">
+                                <div class="col-xl-5 col-md-5 col-sm-6 col-12">
+                                    <label class="form-check-label">Search By</label>
+                                </div>
+                                <div class="col-xl-7 col-md-7 col-sm-6 col-12">
+                                    <div class="radioboxwrapper d-flex justify-content-start">
+                                        <div class="radiobox d-flex">
+                                            <input type="radio" formControlName="searchtype" name="searchtype" id="Yes" class="form-check-input"
+                                            value="1">
+                                            <label class="form-check-label mx-1" for="Yes">%A%</label>
+                                        </div>
+                                        <div class="radiobox mx-2 d-flex">
+                                            <input type="radio"  formControlName="searchtype" name="searchtype" id="No" class="form-check-input"
+                                                value="2">
+                                            <label class="form-check-label mx-1" for="No">A%</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="form-box d-flex">
+                            <label class="form-check-label">Dealer Name/Code :</label>
+                            <input type="text" id="inputtxt" formControlName="inputtxt" placeholder="Enter remark" name="inputtxt"
+                            class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-xl-2  col-md-2 col-sm-8 col-12 d-flex align-items-end">
+                        <div class="form-box d-flex">
+                            <button type="button" class="btn btn-secondary" (click)="searchEmployee()"> Submit </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="table-box"  *ngIf="bookingRequestList.length >0">
+                <div class="tablewrapper">
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                            <tr> 
+                                <th></th>
+                                <th>Booking Request ID</th>
+                      
+                                <th>CustomerName</th>
+                                <th>Mobile No</th>
+                                <th>VehicleModel</th>
+                                <th>DeliveryDate</th>
+                                <th>Payment Type</th>
+                                <th>FinancierName</th>
+                                <th>Branch</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of bookingRequestList">
+                                <td class="cursor text-primary" (click)="modal.close(item.BookingRequestID)">Select</td>
+                                <td>{{item.BookingRequestID}}</td>
+                                <td>{{item. CustomerName}} </td>
+                                <td>{{item.CustomerMobileNo}}</td>
+                                <td>{{item.VehicleModel}}</td>
+                                <td>{{item.DeliveryDate}}</td>
+                                <td>{{item.PaymentType}}</td>
+                                <td>{{item.FinancierName}}</td>
+                                <td>{{item.Branch}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+  </div>
+</ng-template>

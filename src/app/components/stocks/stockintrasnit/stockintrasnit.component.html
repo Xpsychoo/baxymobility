@@ -1,0 +1,98 @@
+<div class="screenwrapper">
+    <h2 class="page-head">View Invoice Details</h2>
+    <form class="filter-box" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+        <div class="col-xl-5 col-md-8 col-sm-12 col-12">
+            <div class="form-box from-to">
+                <label for="dates"> Invoice Date </label>
+                <div class="inputsWrapper">
+                    <label for="stdate" class="text">from</label>
+                    <input type="date" id="stdate" name="stdate" formControlName="stdate" class="form-control"
+                        placeholder="Invoice Number">
+                    <label for="endate" class="text center">to</label>
+                    <input type="date" id="endate" name="endate" class="form-control" formControlName="endate"
+                        placeholder="Invoice Number">
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-sm-12 col-12 btn-box">
+            <button type="submit" class="btn btn-danger">Show Report</button>
+            <button type="button" class="btn ms-3 btn-cancel" (click)="resetForm()">Refresh</button>
+        </div>
+    </form>
+    <div class="table-box" *ngIf="reportsList?.length">
+        <h2 class="table-head">Stock Receiving Reports</h2>
+        <div class="tablewrapper">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Invoice Number</th>
+                        <th>Invoice Date </th>
+                        <th>Total Quantity</th>
+                        <th>Total Invoice Base Value</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of reportsList">
+                        <td (click)="getTransitListItem(item)"><span class="link-type">View More</span> </td>
+                        <td>{{item.InvoiceNumber}}</td>
+                        <td>{{item.InvoiceDate}}</td>
+                        <td>{{item.TotalQuantity}}</td>
+                        <td>{{item.TotalInvoiceValue}}</td>
+                        <td>{{item.Status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ng-template #stockInTransit let-modal>
+        <div class="modal-wrapper">
+            <div class="modal-header">
+                <h4 class="modal-title">Item Details</h4>
+                <button type="button" class="btn btn-cancel" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-box" *ngIf="invoiceItems?.length">
+                    <div class="tablewrapper">
+                        <table class="table table-striped table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Line Item</th>
+                                    <th>Invoice Number</th>
+                                    <th>Engine No.</th>
+                                    <th>Material Code </th>
+                                    <th>Chasis No.</th>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>UOM</th>
+                                    <th>Base Rate</th>
+                                    <th>Base Value</th>
+                                    <th>Taxable Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of invoiceItems">
+                                    <td>{{item.SNo}}</td>
+                                    <td>{{item.InvoiceNumber}}</td>
+                                    <td>{{item.ENGINE_NUMBER}}</td>
+                                    <td>{{item.Item_Code}}</td>
+                                    <td>{{item.CHASIS_NUMBER}}</td>
+                                    <td>{{item.Description_of_Goo}}</td>
+                                    <td>{{item.Qty}}</td>
+                                    <td>{{item.UOM}}</td>
+                                    <td>{{item.Base_Rate}}</td>
+                                    <td>{{item.Base_Value}}</td>
+                                    <td>{{item.Taxable_Value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <p class="text-center p-4" *ngIf="!invoiceItems?.length"> No Items Found</p>
+            </div>
+        </div>
+    </ng-template>
+</div>

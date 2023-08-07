@@ -1,0 +1,43 @@
+<div class="">
+    <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="onSubmit()" >
+        <div class="row d-flex">
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6">
+                <div class="form-box">
+                    <label for="Bookingformdate"  class="form-check-label">Booking form date </label>
+                    <input type="date" id="Bookingformdate" formControlName="Bookingformdate"  name="Bookingformdate" 
+                        class="form-control" >
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 col-sm-6 col-6" >
+                <div class="form-box">
+                    <label for="Bookingtodate" class="form-check-label"> Booking to Date </label>
+                    <input type="date" id="Bookingtodate" formControlName="Bookingtodate"  name="Bookingtodate"
+                    class="form-control">
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-4 col-sm-6 col-6 formButton">
+                <div class="form-box">
+                    <button class="searchattandance btn btn-secondary" >Submit</button>
+            </div>
+            </div>
+        </div>
+    </form>
+    <h2 class="table-head">Booking Request Report </h2>
+    <div class="table-box"  *ngIf="bookingReportList.length >0">
+        <div class="tablewrapper">
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr> 
+                        <th *ngFor="let key of bookingReportList[0] | keys" >{{key}}</th> 
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of bookingReportList">
+                        <td *ngFor="let obj of item | value">{{ obj }}</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

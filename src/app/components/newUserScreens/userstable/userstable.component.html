@@ -14,38 +14,35 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">JN37-2</th>
-                <td>dean ambrose</td>
-                <td>8987676545</td>
-                <td>dean ambrose@mail.com</td>
-                <td>21-Jul-2023 25:13:AM</td>
-                <td>21-Jul-2023 42:11:AM  <br> 172.17.10.164</td>
-                <td><span class="enable">enable</span></td>
-                <td>Sale</td>
+            <tr *ngFor="let item of usersData">
+                <td>{{ item.Secondary_Usercode }}</td>
+                <td>{{ item.UserName }}</td>
+                <td>{{ item.ContactNo }}</td>
+                <td>{{ item.Email }}</td>
+                <td>{{ item.LoginCredentialsGenerated }}</td>
+                <td>{{ item.LastLoginCredentialsUsed }}</td>
                 <td>
-                    <div class="action-buttons">
-                        <i class="fas fa-pen actBtn" title="edit"></i>
-                        <i class="fas fa-ban disablebtn actBtn" title="disable"></i>
-                    </div>
+                    <span [ngClass]="item.Status === 'Active' ? 'enable' : 'disable'">{{ item.Status }}</span>
                 </td>
-            </tr>
-            <tr>
-                <th scope="row">JN37-1</th>
-                <td>Deanamb-rose</td>
-                <td>8987676545</td>
-                <td>wwechamp@mail.com</td>
-                <td>21-Jul-2023 25:13:AM</td>
-                <td>21-Jul-2023 42:11:AM <br> 172.17.10.164</td>
-                <td><span class="disable">disable</span></td>
-                <td>Sale</td>
+                <td>{{ item.Functional_Area_Name }}</td>
                 <td>
                     <div class="action-buttons">
-                        <i class="fas fa-pen actBtn" title="edit"></i>
-                        <i class="fas fa-check-circle enablebtn actBtn" title="enable"></i>
+                        <i class="fas fa-pen actBtn" title="Edit" (click)="editUser(item)"></i>
+                        <ng-container *ngIf="item.Status === 'Active'; else enableIcon">
+                            <i class="fas fa-ban disablebtn actBtn" title="Disable"
+                                (click)="enableDisable(item, false)"></i>
+                        </ng-container>
+                        <ng-template #enableIcon>
+                            <i class="fas fa-check-circle enablebtn actBtn" title="Enable"
+                                (click)="enableDisable(item, true)"></i>
+                        </ng-template>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
+
 </div>
+<app-confirmbox [confirmText]="actionType ? 'Enable' : 'Disable'" *ngIf="confirmBox"
+    (setConfirmBox)="setConfirmBox(false)" (submitFunc)="disableToggle()">
+</app-confirmbox>

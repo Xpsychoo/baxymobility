@@ -41,31 +41,63 @@
                     </div>
                     <div class="col-xl-2 col-md-4 col-sm-6 col-6 formButton">
                         <div class="form-box">
-                            <button class="searchattandance btn btn-secondary" >Submit</button>
+                            <button class="searchattandance btn btn-danger" >Submit</button>
                     </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <h2 class="table-head">Retail Punch Report</h2> <button *ngIf="retailPunchReportList.length >0" class="btn btn-secondary my-1" type="button" (click)="download()"> Download Excel </button>
-    <div class="table-box"  *ngIf="retailPunchReportList.length >0">
+   
+ 
+
+    <div class="table-box"  *ngIf="retailPunchReportList.length >0; else notext">
+        <div class="table-heads">
+            <h2 class="table-head">Retail Punch Report</h2>
+            <button class="btn btn-success download-btn" 
+            title="Download to Excel"
+            type="button" (click)="download()">
+                <i class="fas fa-file-excel"></i>
+            </button>
+        </div>
         <div class="tablewrapper">
-            <table class="table table-striped table-responsive">
+            <table #table class="table table-striped table-responsive">
                 <thead>
                     <tr> 
-                        <th ></th> 
+                        <th *ngIf="beforeDownloadTrue">Form 22 Download</th> 
                         <th *ngFor="let key of retailPunchReportList[0] | keys" >{{key}}</th> 
                     </tr>
 
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of retailPunchReportList">
-                        <td class="text-danger cursor-pointer" *ngIf="item.Form22_Released == 'Yes'" (click)="getFileData(item.ChassisNumber)">download</td>
+                        <td class="text-danger cursor-pointer" *ngIf="item.Form22_Released == 'Yes' && beforeDownloadTrue" (click)="getFileData(item.ChassisNumber)">download</td>
+                        <td class="text-danger cursor-pointer" *ngIf="item.Form22_Released !== 'Yes' && beforeDownloadTrue"></td>
                         <td *ngFor="let obj of item | value">{{ obj }}</td>
                     </tr> 
                 </tbody>
             </table>
         </div>
     </div>
+    <ng-template #notext>
+        <p class="text-center p-5">No Data Found</p>
+    </ng-template>
+</div>
+
+<!-- display  none table  -->
+
+<div class="tablewrapper d-none">
+    <table #table class="table table-striped table-responsive" #table2>
+        <thead>
+            <tr> 
+                <th *ngFor="let key of retailPunchReportList[0] | keys" >{{key}}</th> 
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of retailPunchReportList">
+                <td *ngFor="let obj of item | value">{{ obj }}</td>
+            </tr> 
+        </tbody>
+    </table>
 </div>

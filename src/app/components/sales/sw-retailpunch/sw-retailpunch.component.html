@@ -1,23 +1,23 @@
 <div class="screenwrapper">
     <h2 class="page-head">Retail Punch</h2>
-    <div class="form-table-screen d-flex">
+    <div>
         <!-- form search  -->
-        <form class="pageform mb-4" [formGroup]="searchForm" (ngSubmit)="submitForm()">
-            <div class="row d-flex align-items-end justify-content-start">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+        <form class="mb-4" [formGroup]="searchForm" (ngSubmit)="submitForm()">
+            <div class="filter-box">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-12">
                     <div class="form-box d-flex align-items-center">
-                        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-3 col-3">
+                        <div class="col-xl-4  col-md-4 col-sm-3 col-3">
                             <label for="ChassisNumber" class="form-check-label">Chassis Number :</label>
                         </div>
-                        <div class="col-xl-10 col-lg-8 col-md-8 col-sm-9 col-9">
+                        <div class="col-xl-8  col-md-8 col-sm-9 col-9">
                             <input type="text" id="ChassisNumber"  name="ChassisNumber" formControlName="ChassisNumber"
                             class="form-control" >
                         </div>    
                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-12 d-flex justify-content-start">
+                <div class="col-xl-6 col-lg-4 col-md-6 col-12 d-flex justify-content-start">
                     <div class="form-box ">
-                        <button class="searchattandance btn btn-secondary" [disabled]="searchForm.invalid" >Validate Chassis Number</button>
+                        <button class="searchattandance btn btn-danger" [disabled]="searchForm.invalid" >Validate Chassis Number</button>
                     </div>
                     <div class="form-box ms-2">
                         <button type="button" class="searchattandance btn btn-secondary" (click)="resetForm()" [disabled]="searchForm.invalid" >Refresh</button>
@@ -37,6 +37,7 @@
                     <div class="form-table-screen d-flex">
                         <form class="pageform" [formGroup]="deatilForm" (ngSubmit)="onSubmit()">
                             <div class="row align-items-center">
+                                <h4 class="">Fill Customer's Details :</h4>
                                 <div class=" col-xl-5 col-md-12 col-sm-12 col-12 row d-flex">
                                     <div class="col-12">
                                         <div class="form-box d-flex">
@@ -68,14 +69,16 @@
                                                 <label for="BookingID" class="form-check-label">Booking ID : </label>
                                             </div>
                                             <div class="radioboxwrapper d-flex align-items-center">
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control"  id="BookingID" name="BookingID" formControlName="BookingID"
-                                                     aria-label="BookingID" aria-describedby="basic-addon2">
-                                                    <div class="input-group-append">
-                                                      <i class="fa fa-search search" id="basic-addon2" (click)="openModalofChild()"></i>
-                                                    </div>
+                                                <div class="d-flex align-items-center search-input">
+                                                    <input type="text"  id="BookingID" name="BookingID" formControlName="BookingID"
+                                                    class="form-control" placeholder="enter employee code">
+                                                      <!-- Button to open the modal -->
+                                                    <i class="fa fa-search search" (click)="openModalofChild()"></i>
                                                 </div>
                                             </div>
+
+
+                                            
                                         </div>
                                     </div>
                                     <div class="col-12 ">
@@ -124,7 +127,7 @@
                                 </div>
 
                                 <div class="col-xl-7 col-md-12 col-sm-12 col-12 row d-flex ps-5">
-                                    <h3 class="mb-3">Fill Customer's Details :</h3>
+    
                                     <!-- other details -->
                                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                                         <div class="form-box">
@@ -216,7 +219,7 @@
                                     </div>
                                 </div>
                                
-                                <div class="submit-btn pt-4 pageform">
+                                <div class="submit-btn pt-4">
                                     <button type="submit" [disabled]="deatilForm.invalid"  class="btn btn-danger">Submit</button>
                                 </div>
                             </div>

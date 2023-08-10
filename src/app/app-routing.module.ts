@@ -25,33 +25,36 @@ import { SwRetailpunchReportComponent } from './components/sales/sw-retailpunch-
 import { BookingsalesComponent } from './components/sales/bookingsales/bookingsales.component';
 import { SwRetailpunchComponent } from './components/sales/sw-retailpunch/sw-retailpunch.component';
 import { UploadformtwotwoComponent } from './components/sales/uploadformtwotwo/uploadformtwotwo.component';
+import { ResetPasswordComponent } from './components/basics/reset-password/reset-password.component';
+import { authGuard } from './gaurd/authguard.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'forgotpwd', component: ForgotpasswordComponent },
-  { path: 'newusers', component: NewuserscreenComponent,  },
-  { path: 'viewInvoiceDetails', component: StockintrasnitComponent },
-  { path: 'stockReceiving', component: StockreceivingComponent },
-  { path: 'stockReceivingReport', component: StockreceivingreportComponent },
-  { path: 'stockupdatestatus', component: StockupdatestatusComponent },
-  { path: 'punchattendance', component: PunchattendanceComponent },
-  { path: 'changePassword', component: ChangepasswordComponent },
-  { path: 'employeeattandance', component: EmpattandanceComponent },
-  { path: 'dailysavereport', component: DailyreportscreenComponent },
-  { path: 'downloaddailyreporting', component: DailyreporttableComponent },
-  { path: 'downloademployeedailyreporting', component: ViewemployeedailyreportingComponent },
-  { path: 'dailyvisitreport', component: DailyvisitreportscreenComponent },
-  { path: 'downloadEmployeeDailyVisitReporting', component: EmpdailyvisitreporttableComponent },
-  { path: 'bookingreport', component: BookingreportComponent },
-  { path: 'createnewjob', component: CreatenewjobComponent },
-  { path: 'jobupdate', component: JobupdateComponent },
-  { path: 'printjob', component: PrintjobComponent },
-  { path: 'retailpunchreport', component: SwRetailpunchReportComponent },
-  { path: 'dmsbooking', component: BookingsalesComponent },
-  { path: 'retailpunch', component: SwRetailpunchComponent },
-  { path: 'uploadform22', component: UploadformtwotwoComponent },
-  { path: '**', component: ErrorpageComponent },
+  { path: 'newusers', component: NewuserscreenComponent  ,canActivate: [authGuard] },
+  { path: 'viewInvoiceDetails', component: StockintrasnitComponent ,  canActivate: [authGuard] },
+  { path: 'stockReceiving', component: StockreceivingComponent , canActivate: [authGuard] },
+  { path: 'stockReceivingReport', component: StockreceivingreportComponent , canActivate: [authGuard] },
+  { path: 'stockupdatestatus', component: StockupdatestatusComponent , canActivate: [authGuard] },
+  { path: 'punchattendance', component: PunchattendanceComponent , canActivate: [authGuard] },
+  { path: 'changePassword', component: ChangepasswordComponent , canActivate: [authGuard] },
+  { path: 'resetPassword', component: ResetPasswordComponent },
+  { path: 'employeeattandance', component: EmpattandanceComponent , canActivate: [authGuard] },
+  { path: 'dailysavereport', component: DailyreportscreenComponent , canActivate: [authGuard] },
+  { path: 'downloaddailyreporting', component: DailyreporttableComponent , canActivate: [authGuard] },
+  { path: 'downloademployeedailyreporting', component: ViewemployeedailyreportingComponent , canActivate: [authGuard] },
+  { path: 'dailyvisitreport', component: DailyvisitreportscreenComponent , canActivate: [authGuard] },
+  { path: 'downloadEmployeeDailyVisitReporting', component: EmpdailyvisitreporttableComponent , canActivate: [authGuard] },
+  { path: 'bookingreport', component: BookingreportComponent , canActivate: [authGuard] },
+  { path: 'createnewjob', component: CreatenewjobComponent , canActivate: [authGuard] },
+  { path: 'jobupdate', component: JobupdateComponent , canActivate: [authGuard] },
+  { path: 'printjob', component: PrintjobComponent , canActivate: [authGuard] },
+  { path: 'retailpunchreport', component: SwRetailpunchReportComponent , canActivate: [authGuard] },
+  { path: 'dmsbooking', component: BookingsalesComponent , canActivate: [authGuard] },
+  { path: 'retailpunch', component: SwRetailpunchComponent , canActivate: [authGuard] },
+  { path: 'uploadform22', component: UploadformtwotwoComponent , canActivate: [authGuard] },
+  { path: '**', component: ErrorpageComponent},
 ];
 
 @NgModule({

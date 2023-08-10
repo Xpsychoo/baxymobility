@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SerachempcodeComponent } from '../../common/serachempcode/serachempcode.component';
 import { DailyreportService } from 'src/app/services/dailyReport/dailyreport.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DailyReportData } from 'src/app/interfaces/dailyReport.interface';
 import { punchAttendanceForm } from 'src/app/interfaces/punchattandance.inteface';
+import { DownloadexcelService } from 'src/app/services/common/downloadexcel.service';
 
 @Component({
   selector: 'app-viewemployeedailyreporting',
@@ -14,9 +15,11 @@ import { punchAttendanceForm } from 'src/app/interfaces/punchattandance.inteface
 export class ViewemployeedailyreportingComponent implements OnInit {
 
   @ViewChild(SerachempcodeComponent) childComponent!: SerachempcodeComponent;
+  @ViewChild('table', {static: false}) tableRef!: ElementRef
   constructor(
     private dailyreportService: DailyreportService,
     private toastr: ToastrService,
+    private excelService: DownloadexcelService
     ){
 
   }
@@ -43,8 +46,6 @@ export class ViewemployeedailyreportingComponent implements OnInit {
         if(response.status == 200){
           this.DailyReportList = response.Detail
         }else{
-
-          this.toastr.error(response.Message)
           this.DailyReportList  = []
         }
       }
@@ -67,6 +68,9 @@ export class ViewemployeedailyreportingComponent implements OnInit {
   }
  // Your DailyReportList data array (make sure it's already populated)
 
+ download(){
+  this.excelService.downloadExcel(this.tableRef)
+ }
 
  
 }

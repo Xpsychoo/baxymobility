@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import * as XLSX from 'xlsx';
+import { ElementRef, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -8,41 +7,35 @@ export class DownloadexcelService {
 
   constructor() { }
 
-  downloadExcel(excelData: Array<any>): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  downloadExcel(tableRef: ElementRef): void {
+    const uri = 'data:application/vnd.ms-excel;base64,';
+    const template = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>`;
+    const base64 = function(s: any) { return window.btoa(unescape(encodeURIComponent(s))) };
+    const format = function(s: any, c: any) { return s.replace(/{(\w+)}/g, function(m:any, p:any) { return c[p]; }) };
+  
+    const table = tableRef.nativeElement
+  
+    const thElements = table.querySelectorAll('thead th');
+    const tdElements = Array.from(table.querySelectorAll('tbody tr td'));
 
-    // Set header style (bold)
-    const headerStyle = { font: { bold: true } };
-    if (ws['!ref']) {
-      const range = XLSX.utils.decode_range(ws['!ref']);
-      for (let col = range.s.c; col <= range.e.c; col++) {
-        const cell = XLSX.utils.encode_cell({ r: 0, c: col });
-        ws[cell].s = headerStyle;
-      }
+    for (let i = 0; i < thElements.length; i++) {
+    const style = 'font-weight: bold;';
+    (thElements[i] as HTMLElement).style.cssText = style;
     }
 
-    // Apply alternating column styles
-    this.applyAlternatingStyles(ws, excelData.length);
+    for (let i = 0; i < tdElements.length; i++) {
+    const rowIndex = Math.floor(i / thElements.length); // Calculate row index
+    const isAlternateRow = rowIndex % 2 === 1; // Check if row index is odd
+    const style = isAlternateRow ? 'background-color: lightgrey;' : '';
+    (tdElements[i] as HTMLElement).style.cssText = style;
+    }
 
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     
-    // Write the Excel file and trigger download
-    XLSX.writeFile(wb, 'output.xlsx');
-  }
-
-  private applyAlternatingStyles(ws: XLSX.WorkSheet, lastRow: number): void {
-    const grayCellStyle = { fill: { fgColor: { rgb: 'DDDDDD' } } };
-    const whiteCellStyle = { fill: { fgColor: { rgb: 'FFFFFF' } } };
-    let isGray = false;
-
-    for (let row = 1; row <= lastRow; row++) {
-      for (const col in ws) {
-        if (col.startsWith('A' + row + ':Z' + row)) {
-          ws[col].s = isGray ? grayCellStyle : whiteCellStyle;
-        }
-      }
-      isGray = !isGray;
-    }
+    const ctx = { worksheet: 'Worksheet', table: table.innerHTML };
+  
+    const link = document.createElement('a');
+    link.download = 'data.xls'; // Generic file name
+    link.href = uri + base64(format(template, ctx));
+    link.click();
   }
 }

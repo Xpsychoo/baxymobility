@@ -12,6 +12,8 @@ import { SidebarServiceService } from 'src/app/services/sidebar/sidebar-service.
 })
 export class NavbarComponent {
   isSidebarOpen = false;
+  userInfoData: any;
+
   constructor(
     private cookieService: CookieService,
     private toastr: ToastrService,
@@ -21,7 +23,7 @@ export class NavbarComponent {
   ) { 
     this.sidebarService.sidebarState$.subscribe((isOpen) => {
       this.isSidebarOpen = isOpen;
-    });
+    }); 
   }
 
   isLoggedin: boolean = false
@@ -31,7 +33,15 @@ export class NavbarComponent {
     this.isLoggedin = !!this.cookieService.get('token');
     this.authSharedService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedin = isLoggedIn;
+      this.updateUserInfoData();
     });
+    this.updateUserInfoData();
+  }
+
+  updateUserInfoData() {
+    if (this.cookieService.get('userInfo')) {
+      this.userInfoData = JSON.parse(this.cookieService.get('userInfo'));
+    } 
   }
 
   setConfirmBox(value: boolean) {

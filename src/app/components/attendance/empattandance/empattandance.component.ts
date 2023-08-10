@@ -1,9 +1,10 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { punchAttendanceForm, punchAttendanceList } from 'src/app/interfaces/punchattandance.inteface';
 import { PunchServiceService } from 'src/app/services/punchdata/punch-service.service';
 import { SerachempcodeComponent } from '../../common/serachempcode/serachempcode.component';
+import { DownloadexcelService } from 'src/app/services/common/downloadexcel.service';
 @Component({
   selector: 'app-empattandance',
   templateUrl: './empattandance.component.html',
@@ -11,9 +12,11 @@ import { SerachempcodeComponent } from '../../common/serachempcode/serachempcode
 })
 export class EmpattandanceComponent {
   @ViewChild(SerachempcodeComponent) childComponent!: SerachempcodeComponent;
+  @ViewChild('table', {static: false}) tableRef!: ElementRef
   constructor(
     private punchService: PunchServiceService,
     private toastr: ToastrService,
+    private excelService: DownloadexcelService
     ){
 
   }
@@ -38,7 +41,6 @@ export class EmpattandanceComponent {
         if(response.status == 200){
           this.punchAttandaceList = response.Detail
         }else{
-          this.toastr.error(response.Message)
           this.punchAttandaceList  = []
         }
       }
@@ -58,6 +60,11 @@ export class EmpattandanceComponent {
   setEmpCode(userCode: string){
     this.searchForm.get('Employeecode')?.setValue(userCode);
     this.searchForm.get('Employeecode')?.updateValueAndValidity();
+  }
+
+
+  download(){
+    this.excelService.downloadExcel(this.tableRef)
   }
 
  

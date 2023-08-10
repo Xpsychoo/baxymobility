@@ -37,21 +37,27 @@ export class SigninComponent {
     userOtp: new FormControl('', [Validators.required]),
   });
 
-  submitHandler() {    
-    this.userLoginService.userlogin(this.loginForm.value).subscribe(
+  submitHandler() {
+    const data = this.loginForm.value;
+    const reqOptions = { ...this.loginForm.value, pass: data.pass?.toUpperCase() };
+
+    this.userLoginService.userlogin(reqOptions).subscribe(
       (response: any) => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           this.toastr.success(response.Message);
           this.closeModal();
-          this.cookieService.set('token', 'token here');
+
+          const token = this.generateBase64Token();
+
+          this.cookieService.set('token', token);
           this.cookieService.set('userInfo', JSON.stringify(response.Detail));
           this.authSharedService.setIsLoggedIn(true);
-        }else  {
-          this.toastr.error(response.Message)
+        } else {
+          this.toastr.error(response.Message);
         }
       },
       (error: any) => {
-        console.log(error);        
+        console.log(error);
         this.toastr.error(error.statusText);
       }
     );
@@ -66,6 +72,18 @@ export class SigninComponent {
       this.renderer.setProperty(input, 'value', truncatedValue);
       event.preventDefault();
     }
+  }
+
+  generateBase64Token(): string {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // Months are zero-indexed
+    const day = currentDate.getDate();
+
+    const token = `${year}-${month}-${day}`;
+    const base64Token = btoa(token);
+
+    return base64Token;
   }
 
   otpSubmit() {

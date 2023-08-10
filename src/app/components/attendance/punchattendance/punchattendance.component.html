@@ -6,35 +6,40 @@
                 <div class="row">
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
-                            <label for="name" class="form-check-label">Punch Purpose 
-                                <span class="error-message" *ngIf="punchForm.get('punchpurpose')?.hasError('required')">*</span>
+                            <label for="name" class="form-check-label">Punch Purpose
+                                <span class="text-danger"
+                                    *ngIf="punchForm.get('punchpurpose')?.hasError('required')">*</span>
                             </label>
-                            <select #punchpurpose formControlName="punchpurpose" type="text" placeholder="Select" id="punchpurpose" name="punchpurpose" class="form-control" ngModel>
+                            <select #punchpurpose formControlName="punchpurpose" type="text" placeholder="Select"
+                                id="punchpurpose" name="punchpurpose" class="form-control" ngModel>
                                 <option value="">Select Id</option>
-                                <option *ngFor="let purpose of punchPurposeList" value={{purpose.PurposeName}}>{{purpose.PurposeName}}</option>
+                                <option *ngFor="let purpose of punchPurposeList" value={{purpose.PurposeName}}>
+                                    {{purpose.PurposeName}}</option>
                             </select>
 
                         </div>
                     </div>
-                    <div class="col-xl-6 col-md-6 col-sm-12 col-12" *ngIf="punchForm.get('punchpurpose')?.value == 'Leave'">
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12"
+                        *ngIf="punchForm.get('punchpurpose')?.value == 'Leave'">
                         <div class="form-box">
                             <label class="form-check-label">Leave Type
-                                <span class="error-message" *ngIf="punchForm.get('leavetype')?.hasError('required')">*</span>
+                                <span class="text-danger"
+                                    *ngIf="punchForm.get('leavetype')?.hasError('required')">*</span>
                             </label>
                             <div class="radioboxwrapper">
                                 <div class="radiobox">
-                                    <input type="radio" formControlName="leavetype" name="leavetype" id="Sick" class="form-check-input"
-                                    value="Sick">
+                                    <input type="radio" formControlName="leavetype" name="leavetype" id="Sick"
+                                        class="form-check-input" value="Sick">
                                     <label class="form-check-label" for="Sick">Sick</label>
                                 </div>
                                 <div class="radiobox">
-                                    <input type="radio"  formControlName="leavetype" name="leavetype" id="Casual" class="form-check-input"
-                                        value="Casual">
+                                    <input type="radio" formControlName="leavetype" name="leavetype" id="Casual"
+                                        class="form-check-input" value="Casual">
                                     <label class="form-check-label" for="Casual">Casual</label>
                                 </div>
                                 <div class="radiobox">
-                                    <input type="radio"  formControlName="leavetype" name="leavetype" id="Earned" class="form-check-input"
-                                    value="Earned">
+                                    <input type="radio" formControlName="leavetype" name="leavetype" id="Earned"
+                                        class="form-check-input" value="Earned">
                                     <label class="form-check-label" for="Earned">Earned</label>
                                 </div>
                             </div>
@@ -42,36 +47,43 @@
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
-                            <label for="number" class="form-check-label"> {{punchForm.get('punchpurpose')?.value == 'Leave'?" Attendance Date : From Date": "Attandace Date" }} 
-                                <span class="error-message" *ngIf="punchForm.get('FromPunchdate')?.hasError('required')">*</span>
+                            <label for="number" class="form-check-label"> {{punchForm.get('punchpurpose')?.value ==
+                                'Leave'?" Attendance Date : From Date": "Attandace Date" }}
+                                <span class="text-danger"
+                                    *ngIf="punchForm.get('FromPunchdate')?.hasError('required')">*</span>
                             </label>
-                            <input type="date" id="FromPunchdate"  name="FromPunchdate" formControlName="FromPunchdate"
-                                class="form-control"  [min]="minDate | date : 'yyyy-MM-dd'" [max]="maxDate | date : 'yyyy-MM-dd'">
+                            <input type="date" id="FromPunchdate" name="FromPunchdate" formControlName="FromPunchdate"
+                                class="form-control" [min]="minDate | date : 'yyyy-MM-dd'"
+                                [max]="maxDate | date : 'yyyy-MM-dd'">
                         </div>
                     </div>
-                    <div class="col-xl-6 col-md-6 col-sm-12 col-12" *ngIf="punchForm.get('punchpurpose')?.value == 'Leave'">
+                    <div class="col-xl-6 col-md-6 col-sm-12 col-12"
+                        *ngIf="punchForm.get('punchpurpose')?.value == 'Leave'">
                         <div class="form-box">
-                            <label for="number" class="form-check-label"> To Date 
-                                <span class="error-message" *ngIf="punchForm.get('ToPunchdate')?.hasError('required')">*</span>
+                            <label for="number" class="form-check-label"> To Date
+                                <span class="text-danger"
+                                    *ngIf="punchForm.get('ToPunchdate')?.hasError('required')">*</span>
                             </label>
-                            <input type="date" id="ToPunchdate"  name="ToPunchdate" formControlName="ToPunchdate"
-                                class="form-control"  [min]="punchForm.get('FromPunchdate')?.value | date : 'yyyy-MM-dd'">
+                            <input type="date" id="ToPunchdate" name="ToPunchdate" formControlName="ToPunchdate"
+                                class="form-control"
+                                [min]="punchForm.get('FromPunchdate')?.value | date : 'yyyy-MM-dd'">
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
                             <label class="form-check-label">Present
-                                <span class="error-message" *ngIf="punchForm.get('ispresent')?.hasError('required')">*</span>
+                                <span class="text-danger"
+                                    *ngIf="punchForm.get('ispresent')?.hasError('required')">*</span>
                             </label>
                             <div class="radioboxwrapper">
                                 <div class="radiobox">
-                                    <input type="radio" formControlName="ispresent" name="ispresent" id="Yes" class="form-check-input"
-                                    value="Yes">
+                                    <input type="radio" formControlName="ispresent" name="ispresent" id="Yes"
+                                        class="form-check-input" value="Yes">
                                     <label class="form-check-label" for="Yes">Yes</label>
                                 </div>
                                 <div class="radiobox">
-                                    <input type="radio"  formControlName="ispresent" name="ispresent" id="No" class="form-check-input"
-                                        value="No">
+                                    <input type="radio" formControlName="ispresent" name="ispresent" id="No"
+                                        class="form-check-input" value="No">
                                     <label class="form-check-label" for="No">No</label>
                                 </div>
                             </div>
@@ -80,20 +92,19 @@
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                         <div class="form-box">
                             <label class="form-check-label">Remarks</label>
-                            <textarea type="text" id="remark" formControlName="remark" placeholder="Enter remark" name="remark"
-                            class="form-control"> </textarea>
+                            <textarea type="text" id="remark" formControlName="remark" placeholder="Enter remark"
+                                name="remark" class="form-control"> </textarea>
                         </div>
                     </div>
                     <div class="submit-btn pt-4">
-                        <button type="submit" [ngClass]="{'disabled-cursor': punchForm.invalid}" [disabled]="punchForm.invalid" class="btn btn-danger">Submit</button>
+                        <button type="submit" [ngClass]="{'disabled-cursor': punchForm.invalid}"
+                            [disabled]="punchForm.invalid" class="btn btn-danger">Submit</button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="viewTableBox col-md-7 col-xl-8 col-sm-12 col-12">
-            <div class="table-box">
-                <app-punchattandancetable></app-punchattandancetable>
-            </div>
+            <app-punchattandancetable></app-punchattandancetable>
         </div>
     </div>
 </div>

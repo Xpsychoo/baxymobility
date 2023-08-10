@@ -1,13 +1,23 @@
-.vehicle-details {
-    .text-head {
-        font-size: 17px;
-        display: inline-block;
-        position: relative;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #cccccc;
+.form-wrapper {
+    .box-head {
+        font-size: 18px;
+    }
 
+    .filter-box {
+        margin-bottom: 10px;
+    }
+
+    .text-head {
+        font-size: 16px;
+        position: relative;
+        display: block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        background: #efefef;
     }
 }
+
 
 .form-box {
     &.jobsradio {
@@ -21,23 +31,47 @@
         }
     }
 }
+.btn-box{
+    display: flex;
+    align-items: center;
+
+    .show-job{
+        margin-left: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #5866d1;
+        cursor: pointer;
+    }
+}
 
 .tablewrapper {
     width: 100%;
     overflow: auto;
 
     .table {
-        thead>tr>th {
-            background-color: #8e8e8e;
-            color: #fff;
-            white-space: nowrap;
-            padding: 10px;
+        thead {
+            tr {
+                th {
+                    background-color: #8e8e8e;
+                    color: #fff;
+                    white-space: nowrap;
+                    padding: 10px;
+
+                    &:first-child {
+                        border-radius: 5px 0px 0px 0px;
+                    }
+
+                    &:last-child {
+                        border-radius: 0px 5px 0px 0px;
+                    }
+                }
+            }
         }
 
-        tr{
+        tr {
             width: 100%;
-            
-            td{
+
+            td {
                 .form-control {
                     padding: 4px 7px 2px;
                     font-size: 14px;
@@ -45,7 +79,7 @@
                     line-height: 1.35;
                 }
 
-                .btn{
+                .btn {
                     margin: 0px 5px;
                 }
             }

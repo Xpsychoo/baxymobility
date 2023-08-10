@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { salesbookingreport } from 'src/app/interfaces/sales.interface';
+import { DownloadexcelService } from 'src/app/services/common/downloadexcel.service';
 import { SalesService } from 'src/app/services/sales/sales.service';
 
 @Component({
@@ -13,7 +14,10 @@ export class BookingreportComponent implements OnInit {
 
   bookingReportList :  salesbookingreport[] = []
   searchForm!: FormGroup; 
-  constructor(private salesService: SalesService, private toaster: ToastrService){
+  @ViewChild('table', {static: false}) tableRef!: ElementRef
+  constructor(private salesService: SalesService, 
+    private toaster: ToastrService,  
+    private excelService: DownloadexcelService){
 
   }
   ngOnInit(): void {
@@ -36,8 +40,12 @@ export class BookingreportComponent implements OnInit {
       if(responce.status == 200){
           this.bookingReportList = responce.Detail
       }else{
-        this.toaster.error(responce.Message)
+        this.bookingReportList = []
       }
     })
   }
+
+  download(){
+    this.excelService.downloadExcel(this.tableRef)
+   }
 }

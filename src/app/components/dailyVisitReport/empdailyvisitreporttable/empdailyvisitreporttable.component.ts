@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SerachempcodeComponent } from '../../common/serachempcode/serachempcode.component';
 import { DailyvisitreportService } from 'src/app/services/dailyVisitReport/dailyvisitreport.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DailyEmpVisitReportList, DealerVisitReport } from 'src/app/interfaces/dailyvisitreport.interface';
 import { punchAttendanceForm } from 'src/app/interfaces/punchattandance.inteface';
+import { DownloadexcelService } from 'src/app/services/common/downloadexcel.service';
 
 @Component({
   selector: 'app-empdailyvisitreporttable',
@@ -13,9 +14,11 @@ import { punchAttendanceForm } from 'src/app/interfaces/punchattandance.inteface
 })
 export class EmpdailyvisitreporttableComponent {
   @ViewChild(SerachempcodeComponent) childComponent!: SerachempcodeComponent;
+  @ViewChild('table', {static: false}) tableRef!: ElementRef
   constructor(
     private dailyVisitReportService: DailyvisitreportService,
     private toastr: ToastrService,
+    private excelService: DownloadexcelService
     ){
 
   }
@@ -40,7 +43,6 @@ export class EmpdailyvisitreporttableComponent {
         if(response.status == 200){
           this.empDailyVisitList = response.Detail
         }else{
-          this.toastr.error(response.Message)
           this.empDailyVisitList  = []
         }
       }
@@ -61,5 +63,10 @@ export class EmpdailyvisitreporttableComponent {
     this.searchForm.get('Employeecode')?.setValue(userCode);
     this.searchForm.get('Employeecode')?.updateValueAndValidity();
   }
+
+  download(){
+    this.excelService.downloadExcel(this.tableRef)
+  }
+  
 
 }

@@ -19,33 +19,68 @@
             <button type="button" class="btn ms-3 btn-cancel" (click)="resetForm()">Refresh</button>
         </div>
     </form>
-    <div class="table-box" *ngIf="reportsList?.length">
-        <h2 class="table-head">Stock Receiving Reports</h2>
-        <div class="tablewrapper">
-            <table class="table table-striped table-responsive">
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>Invoice Number</th>
-                        <th>Invoice Date </th>
-                        <th>Total Quantity</th>
-                        <th>Total Invoice Base Value</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of reportsList">
-                        <td (click)="getTransitListItem(item)"><span class="link-type">View More</span> </td>
-                        <td>{{item.InvoiceNumber}}</td>
-                        <td>{{item.InvoiceDate}}</td>
-                        <td>{{item.TotalQuantity}}</td>
-                        <td>{{item.TotalInvoiceValue}}</td>
-                        <td>{{item.Status}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <ng-container *ngIf="reportsList?.length; else noDataFound">
+        <div class="table-box">
+            <div class="table-heads">
+                <h2 class="table-head">Stock Receiving Reports</h2>
+                <button class="btn btn-success download-btn" 
+                title="Download to Excel"
+                type="button" (click)="download()">
+                    <i class="fas fa-file-excel"></i>
+                </button>
+            </div>
+            <div class="tablewrapper">
+                <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date </th>
+                            <th>Total Quantity</th>
+                            <th>Total Invoice Base Value</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of reportsList">
+                            <td (click)="getTransitListItem(item)"><span class="link-type">View
+                                    More</span> </td>
+                            <td>{{item.InvoiceNumber}}</td>
+                            <td>{{item.InvoiceDate}}</td>
+                            <td>{{item.TotalQuantity}}</td>
+                            <td>{{item.TotalInvoiceValue}}</td>
+                            <td>{{item.Status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tablewrapper d-none">
+                <table #table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Invoice Date </th>
+                            <th>Total Quantity</th>
+                            <th>Total Invoice Base Value</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of reportsList">
+                            <td>{{item.InvoiceNumber}}</td>
+                            <td>{{item.InvoiceDate}}</td>
+                            <td>{{item.TotalQuantity}}</td>
+                            <td>{{item.TotalInvoiceValue}}</td>
+                            <td>{{item.Status}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </ng-container>
+    <ng-template #noDataFound>
+        <p class="text-center p-5">No Data Found</p>
+    </ng-template>
     <ng-template #stockInTransit let-modal>
         <div class="modal-wrapper">
             <div class="modal-header">

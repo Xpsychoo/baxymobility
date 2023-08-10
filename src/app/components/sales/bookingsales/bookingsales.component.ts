@@ -88,10 +88,7 @@ export class BookingsalesComponent implements OnInit {
       if(responce.status == 200){
         this.bookingReportList = []
           this.bookingReportList = responce.Detail
-      
-
       }else{
-        this.toaster.error(responce.Message)
         this.bookingReportList = []
       }
     })

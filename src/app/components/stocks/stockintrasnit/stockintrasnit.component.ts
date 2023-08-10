@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
+import { DownloadexcelService } from 'src/app/services/common/downloadexcel.service';
 import { StockreceivereportService } from 'src/app/services/stocks/stockreceivereport.service';
 
 @Component({
@@ -11,11 +12,14 @@ import { StockreceivereportService } from 'src/app/services/stocks/stockreceiver
   styleUrls: ['./stockintrasnit.component.scss']
 })
 export class StockintrasnitComponent {
+
+  @ViewChild('table', { static: false }) tableRef!: ElementRef
+  @ViewChild('stockInTransit') stockInTransit!: ElementRef;
+
   filterForm: FormGroup;
   reportsList: any = [];
   invoiceItems: any = [];
-  @ViewChild('stockInTransit') stockInTransit!: ElementRef;
-
+  isPrinting:boolean = true;
   userInfoData: any;
 
   constructor(
@@ -23,7 +27,8 @@ export class StockintrasnitComponent {
     private cookieService: CookieService,
     private stockreceivereport: StockreceivereportService,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private excelService: DownloadexcelService
   ) {
     this.filterForm = this.formBuilder.group({
       stdate: ['', Validators.required],
@@ -62,7 +67,7 @@ export class StockintrasnitComponent {
       },
       (error: any) => console.log(error)
     );
-    this.modalService.open(this.stockInTransit, { centered: true, backdrop: 'static', size: 'lg' });
+    this.modalService.open(this.stockInTransit, { centered: true, backdrop: 'static', size: 'xl' });
   }
 
   resetForm() {
@@ -71,6 +76,10 @@ export class StockintrasnitComponent {
       endate: '',
     });
     this.onSubmit();
+  }
+
+  download() {
+    this.excelService.downloadExcel(this.tableRef)
   }
 
 }

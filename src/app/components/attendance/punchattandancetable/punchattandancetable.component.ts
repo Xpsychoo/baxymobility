@@ -42,7 +42,6 @@ export class PunchattandancetableComponent implements OnInit {
         if(response.status == 200){
           this.punchAttandaceList = response.Detail
         }else{
-          this.toastr.error(response.Message)
           this.punchAttandaceList  = []
         }
       }

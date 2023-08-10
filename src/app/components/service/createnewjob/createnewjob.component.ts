@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { FormDataService } from 'src/app/services/jobservices/form-data-service.service';
 import { JobsService } from 'src/app/services/jobservices/jobs.service';
 import { DatePipe } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-createnewjob',
@@ -15,7 +16,9 @@ export class CreatenewjobComponent {
   SearchByChasis: FormGroup;
   vehicleDetails: FormGroup;
   userInfoData: any;
+  serachOption: boolean = false;
   serviceItemList: any = [];
+  jobHistoryList: any = [];
   partandservicesArr: any[] = [{
     LineItem: 1,
     ServiceType: "",
@@ -41,6 +44,7 @@ export class CreatenewjobComponent {
     Quantity: "",
     GTotal: ""
   }
+  @ViewChild('jobHistory') jobHistory!: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +52,7 @@ export class CreatenewjobComponent {
     private JobsService: JobsService,
     private toastr: ToastrService,
     public formDataService: FormDataService,
+    private modalService: NgbModal
   ) {
     this.SearchByChasis = this.formBuilder.group({
       Chassis_Number: ['', Validators.required],
@@ -60,12 +65,12 @@ export class CreatenewjobComponent {
       Year_of_Mfg: ['', Validators.required],
       Engine_No: ['', Validators.required],
       Date_of_Sale: ['', Validators.required],
-      kms_covered: ['', Validators.required],
+      Kms_Covered: ['', Validators.required],
       Customer_Name: ['', Validators.required],
       Customer_Mobile_No: ['', Validators.required],
       Address: ['', Validators.required],
       Warranty_Type: ['', Validators.required],
-      service_no: ['', Validators.required],
+      ServiceNo: ['', Validators.required],
       job_description: ['', Validators.required],
       Labour_Charges: ['', Validators.required],
       Estimated_repair_Service_Cost: ['', Validators.required],
@@ -96,15 +101,25 @@ export class CreatenewjobComponent {
   searchbychasisSubmit() {
     const { Chassis_Number } = this.SearchByChasis.value;
     const reqOptions = { Chassis_Number, userid: this.userInfoData.userid };
+    this.JobsService.getJobHistory(reqOptions).subscribe(
+      (response: any) => { 
+        this.jobHistoryList = response.Detail;
+        this.serachOption = true;
+       },
+      (error: any) => console.log(error)
+    );
     this.JobsService.getjobDatabyChasis(reqOptions).subscribe(
       (response: any) => {
-        const datePipe = new DatePipe('en-US'); 
+        const datePipe = new DatePipe('en-US');
         const formattedDate = datePipe.transform(response.Detail[0].Date_of_Sale, 'yyyy-MM-dd');
-
-        this.vehicleDetails.patchValue({ ...response.Detail[0], Date_of_Sale:formattedDate });
+        this.vehicleDetails.patchValue({ ...response.Detail[0], Date_of_Sale: formattedDate });
       },
       (error: any) => console.log(error)
     );
+  }
+
+  openJobHistoryBox() {
+    this.modalService.open(this.jobHistory, { centered: true, backdrop: 'static', size: 'xl' });
   }
 
   transformtoTrue(value: boolean): string {
@@ -210,7 +225,7 @@ export class CreatenewjobComponent {
     if (this.SearchByChasis.value.Chassis_Number) {
       this.JobsService.saveJobRequest(reqOptions).subscribe(
         (response: any) => {
-          this.toastr.success('Request Submitted Successfully');
+          this.toastr.success(response.Message);
           this.SearchByChasisReset();
           console.log(response);
 
@@ -234,12 +249,12 @@ export class CreatenewjobComponent {
       Year_of_Mfg: '',
       Engine_No: '',
       Date_of_Sale: '',
-      kms_covered: '',
+      Kms_Covered: '',
       Customer_Name: '',
       Customer_Mobile_No: '',
       Address: '',
       Warranty_Type: '',
-      service_no: '',
+      ServiceNo: '',
       job_description: '',
       Labour_Charges: '',
       Estimated_repair_Service_Cost: '',
@@ -265,5 +280,6 @@ export class CreatenewjobComponent {
       DamageifAny: '',
     });
     this.partandservicesArr = [{ ...this.partandServicesObj, LineItem: 1, }]
+    this.serachOption = false;
   }
 }

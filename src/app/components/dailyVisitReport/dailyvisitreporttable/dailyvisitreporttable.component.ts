@@ -38,7 +38,6 @@ export class DailyvisitreporttableComponent {
         if(response.status == 200){
           this.dailyVisitReportList = response.Detail
         }else{
-          this.toastr.error(response.Message)
           this.dailyVisitReportList  = []
         }
       }

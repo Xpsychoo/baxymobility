@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -51,6 +51,8 @@ import { CreatenewjobComponent } from './components/service/createnewjob/createn
 import { JobupdateComponent } from './components/service/jobupdate/jobupdate.component';
 import { PrintjobComponent } from './components/service/printjob/printjob.component';
 import { SearchbookingcodeComponent } from './components/common/searchbookingcode/searchbookingcode.component';
+import { ResetPasswordComponent } from './components/basics/reset-password/reset-password.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -93,12 +95,18 @@ import { SearchbookingcodeComponent } from './components/common/searchbookingcod
     JobupdateComponent,
     PrintjobComponent,
     SearchbookingcodeComponent,
+    ResetPasswordComponent,
   ],
   imports: [BrowserModule, NgbModule,
     AppRoutingModule, FormsModule, ReactiveFormsModule,
     HttpClientModule, CommonModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(),],
+    ToastrModule.forRoot(), ServiceWorkerModule.register('ngsw-worker.js', {
+  enabled: !isDevMode(),
+  // Register the ServiceWorker as soon as the application is stable
+  // or after 30 seconds (whichever comes first).
+  registrationStrategy: 'registerWhenStable:30000'
+}),],
   providers: [CookieService,UserListService,UserUpdateService],
   bootstrap: [AppComponent],
 })

@@ -17,6 +17,7 @@ interface SelectedItem {
 
 export class StockreceivingComponent {
   @ViewChild('formRef', { static: false }) formRef!: NgForm;
+
   filterForm: FormGroup;
   reportsList: any = [];
   userInfoData: any;
@@ -28,6 +29,7 @@ export class StockreceivingComponent {
     private cookieService: CookieService,
     private stockreceivereport: StockreceivereportService,
     private toastr: ToastrService,
+
   ) {
     this.filterForm = this.formBuilder.group({
       InvoiceNumber: ['', Validators.required],
@@ -138,4 +140,6 @@ export class StockreceivingComponent {
   selectItem(item: any) {
     this.selectedItem = item;
   }
+
+ 
 }

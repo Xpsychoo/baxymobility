@@ -1,6 +1,24 @@
 import { Component } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { CookieService } from 'ngx-cookie-service';
 import { SidebarServiceService } from 'src/app/services/sidebar/sidebar-service.service';
+
+interface MenuItem {
+  label: string;
+  route: string | boolean;
+  icon?: string;
+  submenu: MenuItem[];
+  showMenu: boolean;
+  RightId: string;
+}
+
+interface Right {
+  RightId: string;
+  RightName: string;
+  MainMenuName: string;
+  SubMenuName: string;
+  Functional_Area: string;
+}
 
 @Component({
   selector: 'app-sidebar',
@@ -9,83 +27,65 @@ import { SidebarServiceService } from 'src/app/services/sidebar/sidebar-service.
 })
 export class SidebarComponent {
   isSidebarOpen = false;
-
-  constructor(private sidebarService: SidebarServiceService) {
+  userInfoData: any;
+  sideListItems: any;
+  constructor(
+    private sidebarService: SidebarServiceService,
+    private cookieService: CookieService
+  ) {
     this.sidebarService.sidebarState$.subscribe((isOpen) => {
       this.isSidebarOpen = isOpen;
     });
+    this.userInfoData = JSON.parse(this.cookieService.get('userInfo'));
   }
-  
-  sidebarLinks = [
-    { label: 'New User Creation', route: '/newusers', icon:'adduser', submenu: [], showMenu: false },
-    {
-      label: 'Attendance',  icon:'attendence',  route: false, submenu: [
-        { label: 'Punch Attendance', route: 'punchattendance' },
-        { label: 'View Attendance', route: '/punchattendance' }, 
-        { label: 'View Employees Attendance' , route: 'employeeattandance'}
-      ], showMenu: false
-    },
-    {
-      label: 'Daily Reporting', icon:'dailyreporting',  route: false, submenu: [
-        { label: 'Save Daily Reporting', route: 'dailysavereport' },
-        { label: 'Download Daily Reporting', route: 'downloaddailyreporting' }, 
-        { label: 'View Employees Daily Reporting' , route: 'downloademployeedailyreporting'}
-      ], showMenu: false
-    },
 
-    {
-      label: 'Daily Visit Reporting', icon:'reports',  route: false, submenu: [
-        { label: 'Save Daily Visit Reporting', route: 'dailyvisitreport' },
-        { label: 'Download Daily Visit Reporting', route: 'dailyvisitreport' }, 
-        { label: 'View Employees Daily Visit Reporting' , route: 'downloadEmployeeDailyVisitReporting'}
-      ], showMenu: false
-    },
-
-    {
-      label: 'Stock', route: false, icon:'stock',  submenu: [
-        { label: 'In-Transit', route: '/viewInvoiceDetails' },
-        { label: 'Stock Receiving', route: '/stockReceiving' }, 
-        { label: 'Update Stock Receiving Status' , route: '/stockupdatestatus'},
-        { label: 'Stock Receiving Report' , route: '/stockReceivingReport'}
-      ], showMenu: false
-    },
-    {
-      label: 'Sales', route: false, icon:'sales',  submenu: [
-        { label: 'Booking', route: 'dmsbooking' },
-        { label: 'Booking Report', route: 'bookingreport' }, 
-        { label: 'SW/Retail Punch' , route: 'retailpunch'},
-        { label: 'SW/Retail Punch Report' , route: 'retailpunchreport'},
-        { label: 'Update Form 22' , route: 'uploadform22'},
-      ], showMenu: false
-    },
-    {
-      label: 'Service', route: false, icon:'service',  submenu: [
-        { label: 'Create New Job Card', route: '/createnewjob' },
-        { label: 'Update Job Card', route: '/jobupdate' }, 
-        { label: 'PrintJob Card' , route: '/printjob'}
-      ], showMenu: false
-    }
-  ];
+  ngOnInit(): void {
+    this.getSideBarMenuList();
+  }
 
   showDropDown(index: number) {
-    this.sidebarLinks[index].showMenu = !this.sidebarLinks[index].showMenu
-    // close all other dropdown
+    this.sideListItems[index].showMenu = !this.sideListItems[index].showMenu
     this.closeallotherDropDown(index)
   }
 
-  closeSideBar() {
-    if (window.innerWidth < 990) {
-      this.toggleSidebar();
+  getSideBarMenuList() {
+    const reqOptions = { userid: this.userInfoData.userid, pass: this.userInfoData.key };
+    this.sidebarService.getSideBarMenuList(reqOptions).subscribe(
+      (response: any) => {
+        const filteredArray1 = this.filterArrayByRightId(this.sidebarService.sidebarLinks, response.Detail);
+        this.sideListItems = filteredArray1
+      },
+      (error: any) => console.log(error)
+    );
+  }
+
+  filterArrayByRightId(array1: any[], array2: Right[]): MenuItem[] {
+    const validRightIds = new Set(array2.map(right => right.RightId));
+
+    function filterSubMenu(subMenu: MenuItem[]): MenuItem[] {
+      return subMenu.filter(item => validRightIds.has(item.RightId));
     }
-  }  
+
+    function filterMenuItem(item: any): MenuItem {
+      if (item.submenu.length > 0) {
+        item.submenu = filterSubMenu(item.submenu);
+        return item.submenu.length > 0 ? item : null;
+      }
+      return validRightIds.has(item.RightId) ? item : null;
+    }
+
+    return array1
+      .map(item => filterMenuItem(item))
+      .filter(item => item !== null);
+  }
 
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar();
   }
 
-  closeallotherDropDown(index: number){
-    this.sidebarLinks.map((item: any)=>{
-      if(item.label !== this.sidebarLinks[index].label){
+  closeallotherDropDown(index: number) {
+    this.sideListItems.map((item: any) => {
+      if (item.label !== this.sideListItems[index].label) {
         item.showMenu = false
       }
     })

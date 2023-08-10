@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { retailPunchList } from 'src/app/interfaces/sales.interface';
@@ -14,6 +14,8 @@ export class SwRetailpunchReportComponent implements OnInit {
 
   retailPunchReportList :  retailPunchList[] = []
   searchForm!: FormGroup; 
+  @ViewChild('table2', {static: false}) tableRef!: ElementRef
+  beforeDownloadTrue: boolean = true
   constructor(private salesService: SalesService, 
     private toaster: ToastrService,
     private excelService: DownloadexcelService
@@ -66,6 +68,6 @@ export class SwRetailpunchReportComponent implements OnInit {
   }
 
   download(){
-    this.excelService.downloadExcel(this.retailPunchReportList)
+   this.excelService.downloadExcel(this.tableRef)
   }
 }

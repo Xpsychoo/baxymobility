@@ -13,6 +13,9 @@ export class JobsService {
     private cookieService: CookieService
   ) { }
 
+  getJobHistory(data: any) {
+    return this.http.post(`${apiUrl}/ServiceJob/DMSSel_Job_history`, data, getHttpOptions(this.cookieService));
+  }
   getjobDatabyChasis(data: any) {
     return this.http.post(`${apiUrl}/ServiceJob/DMSGet_OldUpdatedJobDetails`, data, getHttpOptions(this.cookieService));
   }
@@ -26,6 +29,9 @@ export class JobsService {
 
   getSparePartLabourItemDetail(data: any) {
     return this.http.post(`${apiUrl}/ServiceJob/DMSsel_SparePart_Labour_Item_List_Details`, data, getHttpOptions(this.cookieService));
+  }
+  getSparePartinitList(data: any) {
+    return this.http.post(`${apiUrl}/ServiceJob/DMSsel_Job_SparePartInitRequest_List`, data, getHttpOptions(this.cookieService));
   }
 
   saveJobRequest(data: any) {

@@ -38,7 +38,6 @@ export class DailyreporttableComponent {
         if(response.status == 200){
           this.DailyReportList = response.Detail
         }else{
-          this.toastr.error(response.Message)
           this.DailyReportList  = []
         }
       }
@@ -46,7 +45,6 @@ export class DailyreporttableComponent {
   }
 
   onSubmit(){
-
     this.loaddailyReportlist(this.searchForm.value)
   }
 }

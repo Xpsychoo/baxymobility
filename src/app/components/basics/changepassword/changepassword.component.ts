@@ -20,56 +20,56 @@ export class ChangepasswordComponent {
   ) { }
 
   loginForm = new FormGroup({
-    oldPwd: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
+    oldPwd: new FormControl('', [Validators.required,Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
     pass: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
     conPass: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)]),
   });
 
-  submitHandler() {
+  async submitHandler() {
+    console.log(this.loginForm.value);
+    
     if (this.loginForm.invalid) {
       this.toastr.error('Invalid form data. Please check the fields.');
       return;
     }
 
-    const password = this.loginForm.value.pass;
-    const confirmPassword = this.loginForm.value.conPass;
+    const { pass, oldPwd, conPass } = this.loginForm.value;
 
-    if (password !== confirmPassword) {
+    if (pass !== conPass) {
       this.toastr.error('Password does not match.');
       return;
     }
+    
+    const userInfoData = JSON.parse(this.cookieService.get('userInfo'));
+    const encodedPassword = await this.encodePassword(pass?.toUpperCase());
+    const encodedOldPassword = await this.encodePassword(oldPwd?.toUpperCase());
 
-    this.changePassword(password);
-  
+    this.changePasswordReq({
+      userid: userInfoData.userid, pass: encodedPassword, oldPassword: encodedOldPassword
+    });
   }
 
-  private changePassword(newPassword: string | null | undefined): void {
-    if (!newPassword) {
+  private async encodePassword(inputPassword: string | null | undefined): Promise<string> {
+    if (!inputPassword) {
       this.toastr.error('Invalid password provided.');
-      return;
+      return '';
     }
 
-    const userInfoData = JSON.parse(this.cookieService.get('userInfo'));
-    
-    this.convertBase64.encodeData({ sData: newPassword }).subscribe(
-      (response: any) => {
-        this.changePasswordReq({ userid :userInfoData.userid, pass: response })
-      },
-      (error: any) => {
-        this.toastr.error('something went wrong')
-      }
-    );
-
-      
+    try {
+      const response: any = await this.convertBase64.encodeData({ sData: inputPassword }).toPromise();
+      return response;
+    } catch (error) {
+      this.toastr.error('something went wrong');
+      return '';
+    }
   }
 
-  changePasswordReq(data:any){    
-
-    
-   /*  this.userLoginService.changePassword(data).subscribe(
+  changePasswordReq(data: any) {
+    this.userLoginService.changePassword(data).subscribe(
       (response: any) => {
         if (response.status === 200) {
           this.toastr.success(response.Message);
+          this.loginForm.reset();
         } else {
           this.toastr.info(response.Message);
         }
@@ -77,7 +77,7 @@ export class ChangepasswordComponent {
       (error: any) => {
         this.toastr.error(error.statusText);
       }
-    ); */
+    );
   }
 
   get oldPwd() {
@@ -91,5 +91,4 @@ export class ChangepasswordComponent {
   get conPass() {
     return this.loginForm.get('conPass');
   }
-
 }

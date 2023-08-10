@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { DownloadexcelService } from 'src/app/services/common/downloadexcel.service';
 import { StockreceivereportService } from 'src/app/services/stocks/stockreceivereport.service';
 
 @Component({
@@ -12,11 +13,13 @@ export class StockreceivingreportComponent implements OnInit {
   filterForm: FormGroup;
   reportStatusList: any = [];
   reportsList: any = [];
+  @ViewChild('table', {static: false}) tableRef!: ElementRef;
 
   constructor(
     private formBuilder: FormBuilder,
     private stockreceivereport: StockreceivereportService,
     private cookieService: CookieService,
+    private excelService: DownloadexcelService
   ) {
     this.filterForm = this.formBuilder.group({
       ChassisNumber: ['', Validators.required],
@@ -73,4 +76,8 @@ export class StockreceivingreportComponent implements OnInit {
     });
     this.getstockreceiveReport();
   }
+
+  download(){
+    this.excelService.downloadExcel(this.tableRef)
+   }
 }

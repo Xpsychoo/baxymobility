@@ -32,54 +32,51 @@ export class ForgotpasswordComponent {
   });
 
   otpForm = new FormGroup({
-    userOtp: new FormControl('', [Validators.required]),
+    otp: new FormControl('', [Validators.required]),
   });
 
-  submitHandler() {    
-    this.userLoginService.userlogin(this.loginForm.value).subscribe(
-      (response: any) => {
-        if (response.status == 200) {
+  submitHandler() {
+    const reqOptions = { ...this.loginForm.value, pass:'123456', otp: '', flag: "CreateOTP" }
+     this.userLoginService.forgotpassword(reqOptions).subscribe(
+       (response: any) => {
+        if (response.status === 200) {
           this.toastr.success(response.Message);
-          this.closeModal();
-          this.cookieService.set('token', 'token here');
-          this.cookieService.set('userInfo', response.Detail);
-          this.authSharedService.setIsLoggedIn(true);
-        }else  {
-          this.toastr.error(response.Message)
+          this.openModal();
+        }else{
+          this.toastr.info(response.Message);
         }
-      },
-      (error: any) => {
-        console.log(error);        
-        this.toastr.error(error.statusText);
-      }
-    );
+       },
+       (error: any) => {
+         this.toastr.error(error.Message);
+       }
+     );
   }
 
   onInputKeypress(event: KeyboardEvent) {
     const input = event.target as HTMLInputElement;
     const inputValue = input.value;
 
-    if (inputValue.length >= 4) {
-      const truncatedValue = inputValue.slice(0, 4);
+    if (inputValue.length >= 6) {
+      const truncatedValue = inputValue.slice(0, 6);
       this.renderer.setProperty(input, 'value', truncatedValue);
       event.preventDefault();
     }
   }
 
   otpSubmit() {
-    const reqOptions = {
-      ...this.otpForm.value,
-      ...this.loginForm.value,
-    };
-    this.userLoginService.otpSubmitFunc(reqOptions).subscribe(
+    const Data = {...this.loginForm.value}
+    const reqOptions = { ...this.loginForm.value, ...this.otpForm.value, pass:'123456', flag: "CheckOTP" }    
+     this.userLoginService.forgotpassword(reqOptions).subscribe(
       (data: any) => {
-        const userInfoString = JSON.stringify(data.data);
-        this.closeModal();
-        this.cookieService.set('token', data.acesstoken);
-        this.cookieService.set('userInfo', userInfoString);
-        this.otpForm.controls['userOtp'].setValue('');
-        this.router.navigate(['/']);
-        this.authSharedService.setIsLoggedIn(true);
+        if (data.status === 200) {
+          this.closeModal();
+          this.toastr.success(data.Message);
+          this.cookieService.set('rpot', JSON.stringify(Data));
+          this.otpForm.controls['otp'].setValue('');
+          this.router.navigate(['/resetPassword']);
+        }else{
+          this.toastr.success(data.Message);
+        }
       },
       (error: any) => {
         console.log(error);
@@ -90,6 +87,10 @@ export class ForgotpasswordComponent {
 
   openModal() {
     this.modalService.open(this.otpModal, { centered: true, backdrop: 'static' });
+  }
+  cancelResetPwd(){
+    this.closeModal();
+    this.router.navigate(['/']);
   }
 
   closeModal() {

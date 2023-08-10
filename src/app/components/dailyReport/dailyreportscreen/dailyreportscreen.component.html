@@ -3,43 +3,46 @@
     <div class="form-table-screen">
         <div class="addformBox col-md-5 col-xl-4 col-sm-12 col-12 pe-md-4">
             <form [formGroup]="dailyReportForm" class="pageform" (ngSubmit)="saveDailyReportData()">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12">
                         <div class="form-box">
-                            <label for="number" class="form-check-label"> Report Date
-                                <span class="error-message" *ngIf="dailyReportForm.get('ReportDate')?.hasError('required')">*</span>
+                            <label for="number" class="form-check-label mb-2"> Report Date
+                                <span class="error-message"
+                                    *ngIf="dailyReportForm.get('ReportDate')?.hasError('required')">*</span>
                             </label>
-                            <input type="date" id="ReportDate"  name="ReportDate" 
-                                class="form-control" formControlName="ReportDate"  [min]="minDate | date : 'yyyy-MM-dd'">
+                            <input type="date" id="ReportDate" name="ReportDate" class="form-control"
+                                formControlName="ReportDate" [min]="minDate | date : 'yyyy-MM-dd'">
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-6 col-6">
                         <div class="form-box">
                             <label for="Dealer_Code" class="form-check-label">Dealers Code
-                                <span class="error-message"*ngIf="dailyReportForm.get('Dealer_Code')?.hasError('required')">*</span>
+                                <span class="error-message"
+                                    *ngIf="dailyReportForm.get('Dealer_Code')?.hasError('required')">*</span>
                             </label>
-                            <div class="d-flex align-items-center">
-                                <input type="text" id="Dealer_Code"  name="Dealer_Code"
-                                class="form-control" formControlName="Dealer_Code" >
-                                  <!-- Button to open the modal -->
-                                <i class="fa fa-search mx-1 border p-2" (click)="openDealerCodeModel()"></i>
+                            <div class="d-flex align-items-center search-input">
+                                <input type="text" id="Dealer_Code" name="Dealer_Code" class="form-control"
+                                    formControlName="Dealer_Code">
+                                <!-- Button to open the modal -->
+                                <i class="fa fa-search search" (click)="openDealerCodeModel()"></i>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-md-6 col-sm-12 col-12 d-flex align-items-end">
                         <div class="form-box d-flex align-items-center justify-content-between">
                             <label class="form-check-label">Visit
-                                <span class="error-message" *ngIf="dailyReportForm.get('Visit')?.hasError('required')">*</span>
+                                <span class="error-message"
+                                    *ngIf="dailyReportForm.get('Visit')?.hasError('required')">*</span>
                             </label>
                             <div class="radioboxwrapper mx-2">
                                 <div class="radiobox">
-                                    <input type="radio" formControlName="Visit" name="Visit" id="Yes" class="form-check-input"
-                                    value="Yes">
+                                    <input type="radio" formControlName="Visit" name="Visit" id="Yes"
+                                        class="form-check-input" value="Yes">
                                     <label class="form-check-label" for="Yes">Yes</label>
                                 </div>
                                 <div class="radiobox">
-                                    <input type="radio" formControlName="Visit" name="Visit" id="No" class="form-check-input"
-                                        value="No">
+                                    <input type="radio" formControlName="Visit" name="Visit" id="No"
+                                        class="form-check-input" value="No">
                                     <label class="form-check-label" for="Casual">No</label>
                                 </div>
                             </div>
@@ -48,115 +51,119 @@
                     <div class="col-xl-6 col-md-6 col-sm-6 col-6">
                         <div class="form-box">
                             <label for="CollectionAmount" class="form-check-label">Collection
-                                <span class="error-message" *ngIf="dailyReportForm.get('CollectionAmount')?.hasError('required')">*</span>
+                                <span class="error-message"
+                                    *ngIf="dailyReportForm.get('CollectionAmount')?.hasError('required')">*</span>
                             </label>
                             <div class="d-flex align-items-center">
-                                <input type="text" id="CollectionAmount" formControlName="CollectionAmount" name="CollectionAmount"
-                                class="form-control" >
-                                  <!-- Button to open the modal -->
+                                <input type="text" id="CollectionAmount" formControlName="CollectionAmount"
+                                    name="CollectionAmount" class="form-control">
+                                <!-- Button to open the modal -->
                                 <i class="fa fa-inr mx-1 p-2"></i>
                             </div>
                         </div>
                     </div>
                     <div class="submit-btn pt-4">
-                        <button type="submit" [disabled]="dailyReportForm.invalid || lineitemrray.length == 0" class="btn btn-danger">Submit</button>
+                        <button type="submit" [disabled]="dailyReportForm.invalid || lineitemrray.length == 0"
+                            class="btn btn-danger">Submit</button>
                     </div>
                 </div>
             </form>
         </div>
 
         <!-- Model for dealer code search -->
-            <app-searchdealercode (dealerCode)="setDealerCode($event)"></app-searchdealercode>
+        <app-searchdealercode (dealerCode)="setDealerCode($event)"></app-searchdealercode>
         <!-- Model clode for deale code search -->
 
         <!-- table screen -->
         <div class="viewTableBox col-md-7 col-xl-8 col-sm-12 col-12">
-            <div class="table-box">
-                <form [formGroup]="lineItemForm" (ngSubmit)="saveLineItem()">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 col-sm-12 col-12">
-                            <div class="form-box">
-                                <label for="name" class="form-check-label">Entry Type 
-                                    <span class="error-message">*</span>
-                                </label>
-                                <select formControlName="EntryType"  type="text" placeholder="Select" id="EntryType" name="EntryType" class="form-control" ngModel>
-                                    <option value="">Select Entry List</option>
-                                    <option value={{Type.EntyType}} *ngFor="let Type of EntryTypeList ">{{Type.EntyType}}</option>
-                                </select>
-    
-                            </div>
-                        </div>
+            <form class="filter-box" [formGroup]="lineItemForm" (ngSubmit)="saveLineItem()">
+                <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="form-box">
+                        <label for="name" class="form-check-label">Entry Type
+                            <span class="error-message">*</span>
+                        </label>
+                        <select formControlName="EntryType" type="text" placeholder="Select" id="EntryType"
+                            name="EntryType" class="form-control" ngModel>
+                            <option value="">Select Entry List</option>
+                            <option value={{Type.EntyType}} *ngFor="let Type of EntryTypeList ">{{Type.EntyType}}
+                            </option>
+                        </select>
 
-                        <div class="col-xl-3 col-md-6 col-sm-12 col-12">
-                            <div class="form-box">
-                                <label for="name" class="form-check-label">Modal 
-                                    <span class="error-message">*</span>
-                                </label>
-                                <select  formControlName="ModelName" type="text" placeholder="Select" id="ModelName" name="ModelName" class="form-control" ngModel>
-                                    <option value="">Select Model</option>
-                                    <option value={{Model.ModelName}} *ngFor="let Model of ModelList">{{Model.ModelName}}</option>
-                                    <option value="2">2</option>
-                                   
-                                </select>
-    
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 col-sm-12 col-12">
-                            <div class="form-box">
-                                <label for="CollectionAmount" class="form-check-label">Quantity
-                                    <span class="error-message">*</span>
-                                </label>
-                                    <input formControlName="Quantity" type="text" id="Quantity"  name="Quantity"
-                                    class="form-control" >
-                                      <!-- Button to open the modal -->
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 col-sm-8 col-12 d-flex align-items-end">
-                            <div class="form-box d-flex" *ngIf="!editLineForm">
-                                <button type="submit" class="btn btn-danger" [disabled]="lineItemForm.invalid"> Add </button>
-                            </div>
-
-                            <div class="form-box d-flex" *ngIf="editLineForm">
-                                <button type="button" class="btn btn-danger mx-2" 
-                                [disabled]="lineItemForm.invalid" (click)="UpdateFormValue()">
-                                 Update </button>
-                                <button type="button" class="btn btn-danger" (click)="ResetFormValue()"> Reset </button>
-                            </div>
-
-                        </div>
                     </div>
-                </form>
+                </div>
 
-                <!-- Table start -->
-                <!-- <app-dailyreporttable></app-dailyreporttable> -->
-                <div class="table-box mt-2">
-                    <div class="tablewrapper">
-                        <table class="table table-striped table-responsive">
-                            <thead>
-                                <tr> 
-                                    <th>SL.NO</th>
-                                    <th>Entry Type</th>
-                                    <th>Model</th>
-                                    <th>Quantity</th>
-                                    <th>Action</th>
-                                </tr>
-            
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of lineitemrray; let i =index;">
-                                    <td>{{item.ItemLine}}</td>
-                                    <td>{{item.EntryType}}</td>
-                                    <td>{{item.ModelName}}</td>
-                                    <td>{{item.Quantity}}</td>
-                                    <td>
-                                        <i class="fas fa-edit ml-2" (click)="onEditFillLineItemFrom(item)"></i>
-                                        <i class="fa fa-trash mx-2"  (click)="onDeleteLineItem(i)"></i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="form-box">
+                        <label for="name" class="form-check-label">Modal
+                            <span class="error-message">*</span>
+                        </label>
+                        <select formControlName="ModelName" type="text" placeholder="Select" id="ModelName"
+                            name="ModelName" class="form-control" ngModel>
+                            <option value="">Select Model</option>
+                            <option value={{Model.ModelName}} *ngFor="let Model of ModelList">{{Model.ModelName}}
+                            </option>
+                            <option value="2">2</option>
+
+                        </select>
+
                     </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="form-box">
+                        <label for="CollectionAmount" class="form-check-label">Quantity
+                            <span class="error-message">*</span>
+                        </label>
+                        <input formControlName="Quantity" type="text" id="Quantity" name="Quantity"
+                            class="form-control">
+                        <!-- Button to open the modal -->
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-sm-8 col-12 d-flex align-items-end">
+                    <div class="form-box d-flex" *ngIf="!editLineForm">
+                        <button type="submit" class="btn btn-danger" [disabled]="lineItemForm.invalid"> Add
+                        </button>
+                    </div>
+
+                    <div class="form-box d-flex" *ngIf="editLineForm">
+                        <button type="button" class="btn btn-danger mx-2" [disabled]="lineItemForm.invalid"
+                            (click)="UpdateFormValue()">
+                            Update </button>
+                        <button type="button" class="btn btn-danger" (click)="ResetFormValue()"> Reset </button>
+                    </div>
+
+                </div>
+            </form>
+
+            <!-- Table start -->
+            <!-- <app-dailyreporttable></app-dailyreporttable> -->
+            <div class="table-box mt-2" >
+                <div class="tablewrapper">
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th>SL.NO</th>
+                                <th>Entry Type</th>
+                                <th>Model</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of lineitemrray; let i =index;">
+                                <td>{{item.ItemLine}}</td>
+                                <td>{{item.EntryType}}</td>
+                                <td>{{item.ModelName}}</td>
+                                <td>{{item.Quantity}}</td>
+                                <td>
+                                    <i class="fas fa-edit ml-2" (click)="onEditFillLineItemFrom(item)"></i>
+                                    <i class="fa fa-trash mx-2" (click)="onDeleteLineItem(i)"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center py-2"  *ngIf="!lineitemrray.length"> No Items Found </div>
                 </div>
             </div>
         </div>

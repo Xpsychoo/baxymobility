@@ -15,7 +15,9 @@ export class JobupdateComponent {
   filterForm: FormGroup;
   vehicleDetails: FormGroup;
   serviceItemList: any = [];
+  isFieldDisabled:boolean =false;
   jobRequestList: any = [];
+  initialSparePartList: any = [];
   userInfoData: any;
   partandservicesArr: any[] = [{
     LineItem: 1,
@@ -57,50 +59,49 @@ export class JobupdateComponent {
       Customer_Mobile_No: ['', Validators.required]
     });
     this.vehicleDetails = this.formBuilder.group({
-      Chassis_Number: ['', Validators.required],
-      Item_Code: ['', Validators.required],
-      Vehicle_Regn_No: ['', Validators.required],
-      Vehicle_Model: ['', Validators.required],
-      Year_of_Mfg: ['', Validators.required],
-      Engine_No: ['', Validators.required],
-      Date_of_Sale: ['', Validators.required],
-      kms_covered: ['', Validators.required],
-      Customer_Name: ['', Validators.required],
-      Customer_Mobile_No: ['', Validators.required],
-      Address: ['', Validators.required],
-      Warranty_Type: ['', Validators.required],
-      service_no: ['', Validators.required],
-      job_description: ['', Validators.required],
-      Labour_Charges: ['', Validators.required],
-      Estimated_repair_Service_Cost: ['', Validators.required],
-      Estimated_Delivered_Date: ['', Validators.required],
-      Estimated_Delivered_Time: ['', Validators.required],
-      BayIn_Time: ['', Validators.required],
-      BayIn_Date: ['', Validators.required],
-      BayOut_Date: ['', Validators.required],
-      BayOut_Time: ['', Validators.required],
-      Technician_Name: ['', Validators.required],
-      Job_Card_Prepared_by: ['', Validators.required],
-      Accessorie_RearViewMirror: [false, Validators.required],
-      Accessories_ToolKitJack: [false, Validators.required],
-      Accessories_Battery: [false, Validators.required],
-      Accessories_Fan: [false, Validators.required],
-      Accessories_RubberMats: [false, Validators.required],
-      Accessories_SunShield: [false, Validators.required],
-      Accessories_SpareWheel: [false, Validators.required],
-      Accessories_WheelCase: [false, Validators.required],
-      Accessories_AudioSystem: [false, Validators.required],
-      Accessories_Fuel: [false, Validators.required],
-      Accessories_Quantity: [false, Validators.required],
-      DamageifAny: ['', Validators.required],
+      Chassis_Number: [''],
+      Item_Code: [''],
+      Vehicle_Regn_No: [''],
+      Vehicle_Model: [''],
+      Year_of_Mfg: [''],
+      Engine_No: [''],
+      Date_of_Sale: [''],
+      Kms_Covered: [''],
+      Customer_Name: [''],
+      Customer_Mobile_No: [''],
+      Address: [''],
+      Warranty_Type: [''],
+      ServiceNo: [''],
+      Job_Description: [''],
+      Actual_work_Done: [''],
+      JobNo: [''],
+      Labour_Charges: [''],
+      Estimated_repair_Service_Cost: [''],
+      Estimated_Delivered_Date: [''],
+      Estimated_Delivered_Time: [''],
+      BayIn_Time: [''],
+      BayIn_Date: [''],
+      BayOut_Date: [''],
+      BayOut_Time: [''],
+      Technician_Name: [''],
+      Job_Card_Prepared_by: [''],
+      Accessorie_RearViewMirror: [false],
+      Accessories_ToolKitJack: [false],
+      Accessories_Battery: [false],
+      Accessories_Fan: [false],
+      Accessories_RubberMats: [false],
+      Accessories_SunShield: [false],
+      Accessories_SpareWheel: [false],
+      Accessories_WheelCase: [false],
+      Accessories_AudioSystem: [false],
+      Accessories_Fuel: [false],
+      Accessories_Quantity: [false],
+      DamageifAny: [''],
+      Remarks: [''],
     });
     this.userInfoData = JSON.parse(this.cookieService.get('userInfo'));
   }
 
-  onSubmit() {
-    console.log(this.filterForm.value);
-
-  }
   addPartListRow() {
     const lastItem = this.partandservicesArr[this.partandservicesArr.length - 1];
     const isValid = lastItem?.Quantity !== "" && lastItem?.ServiceType !== "" && lastItem?.ServiceCode !== "";
@@ -117,7 +118,6 @@ export class JobupdateComponent {
   }
 
   filterSubmit() {
-    console.log(this.filterForm.value);
     const reqOptions = { ...this.filterForm.value, userid: this.userInfoData.userid }
     this.JobsService.getjobRequestList(reqOptions).subscribe(
       (response: any) => this.jobRequestList = response.Detail,
@@ -128,24 +128,28 @@ export class JobupdateComponent {
   handleChange(event: any, property: string, item: any, index: number) {
     const inputValue = event.target.value;
 
-    if (property === 'Quantity') {
-      let quantityValue = parseInt(inputValue, 10);
-      quantityValue = quantityValue >= 0 ? quantityValue : 0;
-      this.partandservicesArr[index]['Quantity'] = quantityValue;
+    switch (property) {
+      case 'Quantity':
+        const quantityValue = Math.max(parseInt(inputValue, 10), 0);
+        this.partandservicesArr[index]['Quantity'] = quantityValue;
+        if (item.ServiceCode) {
+          this.partandservicesArr[index]['GTotal'] = (item.TotalPrice * quantityValue).toFixed(2);
+        }
+        break;
 
-      if (item.ServiceCode) {
-        this.partandservicesArr[index]['GTotal'] = (item.TotalPrice * this.partandservicesArr[index]['Quantity']).toFixed(2);
-      }
-    } else {
-      this.partandservicesArr[index][property] = inputValue;
-    }
+      case 'ServiceType':
+        this.partandservicesArr[index][property] = inputValue;
+        this.getSparePartLabourList(item);
+        break;
 
-    if (property === 'ServiceType') {
-      this.getSparePartLabourList(item);
-    }
+      case 'ServiceCode':
+        this.partandservicesArr[index][property] = inputValue;
+        this.getSparePartLabourItemDetail(item, index);
+        break;
 
-    if (property === 'ServiceCode') {
-      this.getSparePartLabourItemDetail(item, index);
+      default:
+        this.partandservicesArr[index][property] = inputValue;
+        break;
     }
   }
 
@@ -172,14 +176,30 @@ export class JobupdateComponent {
       SpareCode: item.ServiceCode,
       AsonDate: new Date().toLocaleDateString('en-US')
     };
+
+    const handleResponse = (response: any) => {
+      const { Detail } = response;
+      const partandservicesItem = this.partandservicesArr[index];
+      ['MRP', 'DealerPrice', 'SGST', 'CGST', 'IGST', 'TotalPrice'].forEach(key => {
+        partandservicesItem[key] = Detail[0][key];
+      });
+    };
+
     this.JobsService.getSparePartLabourItemDetail(reqOptions).subscribe(
+      handleResponse,
+      (error: any) => console.log(error)
+    );
+  }
+
+  getSparePartinitList(id: any) {
+    const reqOptions = { JobID: id, Request_Stage: "Actual observation" };
+    this.JobsService.getSparePartinitList(reqOptions).subscribe(
       (response: any) => {
-        this.partandservicesArr[index]['MRP'] = response.Detail[0].MRP;
-        this.partandservicesArr[index]['DealerPrice'] = response.Detail[0].DealerPrice;
-        this.partandservicesArr[index]['SGST'] = response.Detail[0].SGST;
-        this.partandservicesArr[index]['CGST'] = response.Detail[0].CGST;
-        this.partandservicesArr[index]['IGST'] = response.Detail[0].IGST;
-        this.partandservicesArr[index]['TotalPrice'] = response.Detail[0].TotalPrice;
+        if (response.Detail) {
+          this.partandservicesArr = [...response.Detail, { ...this.partandServicesObj }]
+        } else {
+          this.partandservicesArr = [{ ...this.partandServicesObj, LineItem: 1 }];
+        }
       },
       (error: any) => console.log(error)
     );
@@ -204,45 +224,60 @@ export class JobupdateComponent {
     return formattedTime;
   }
 
-
   selectItem(item: any) {
-    const { Date_of_Sale, BayOut_Time, BayOut_Date, BayIn_Time, BayIn_Date, Estimated_Delivered_Date, Estimated_Delivered_Time } = item;
-    this.vehicleDetails.patchValue({
+    const formattedDate = (date: string) => this.formatedDate(date);
+    const formattedTime = (time: string) => this.formatedTime(time);
+
+    const booleanProperties = [
+      'Accessorie_RearViewMirror',
+      'Accessories_AudioSystem',
+      'Accessories_Battery',
+      'Accessories_Fan',
+      'Accessories_Fuel',
+      'Accessories_ToolKitJack',
+      'Accessories_RubberMats',
+      'Accessories_SunShield',
+      'Accessories_SpareWheel',
+      'Accessories_WheelCase',
+      'Accessories_Quantity',
+    ];
+
+    const updatedItem: any = {
       ...item,
-      Date_of_Sale: this.formatedDate(Date_of_Sale),
-      BayOut_Time: this.formatedTime(BayOut_Time),
-      BayOut_Date: this.formatedDate(BayOut_Date),
-      BayIn_Time: this.formatedTime(BayIn_Time),
-      BayIn_Date: this.formatedDate(BayIn_Date),
-      Estimated_Delivered_Date: this.formatedDate(Estimated_Delivered_Date),
-      Estimated_Delivered_Time: this.formatedTime(Estimated_Delivered_Time),
-    })
+      Date_of_Sale: formattedDate(item.Date_of_Sale),
+      BayOut_Time: formattedTime(item.BayOut_Time),
+      BayOut_Date: formattedDate(item.BayOut_Date),
+      BayIn_Time: formattedTime(item.BayIn_Time),
+      BayIn_Date: formattedDate(item.BayIn_Date),
+      Estimated_Delivered_Date: formattedDate(item.Estimated_Delivered_Date),
+      Estimated_Delivered_Time: formattedTime(item.Estimated_Delivered_Time),
+    };
+
+    booleanProperties.forEach((prop) => {
+      updatedItem[prop] = item[prop] === 'Yes';
+    });
+
+    this.vehicleDetails.patchValue(updatedItem);
+    this.getSparePartinitList(item.JobNo);
+    this.isFieldDisabled = true;
   }
 
-  vehicleDetailSubmit() {
-    const updatedVehicleDetails = this.updateVehicleDetails(this.vehicleDetails.value);
 
+  vehicleDetailSubmit() {
     const reqOptions = {
-      ...updatedVehicleDetails,
+      ...this.updateVehicleDetails(this.vehicleDetails.value),
       CreatedBy: this.userInfoData.userid,
-      Actual_work_Done: '',
+      Status: '11',
       PartList: this.partandservicesArr
     };
-    console.log(reqOptions);
 
-    /* if (this.filterForm.value.Chassis_Number) {
-      this.JobsService.updateJobRequest(reqOptions).subscribe(
-        (response: any) => {
-          this.toastr.success('Request Submitted Successfully');
-          this.resetForm();
-          console.log(response);
-
-        },
-        (error: any) => console.log(error)
-      );
-    } else {
-      this.toastr.error('Please Fill the form');
-    } */
+    this.JobsService.updateJobRequest(reqOptions).subscribe(
+      ({ Message }: any) => {
+        this.toastr.success(Message);
+        this.resetForm();
+      },
+      (error: any) => console.log(error)
+    );
   }
 
   updateVehicleDetails(vehicleDetails: any): any {
@@ -256,10 +291,51 @@ export class JobupdateComponent {
 
   resetForm() {
     this.filterForm.reset({
-      ChassisNumber: '',
-      job_id: '',
-      customer_name: '',
-      customer_mobile_no: '',
+      Chassis_Number: '',
+      JobID: '',
+      Customer_Name: '',
+      Customer_Mobile_No: '',
+    });
+    this.vehicleDetails.reset({
+      Chassis_Number: '',
+      JobNo: '',
+      Item_Code: '',
+      Vehicle_Regn_No: '',
+      Vehicle_Model: '',
+      Year_of_Mfg: '',
+      Engine_No: '',
+      Date_of_Sale: '',
+      Kms_Covered: '',
+      Customer_Name: '',
+      Customer_Mobile_No: '',
+      Address: '',
+      Warranty_Type: '',
+      ServiceNo: '',
+      Job_Description: '',
+      Actual_work_Done: '',
+      Labour_Charges: '',
+      Estimated_repair_Service_Cost: '',
+      Estimated_Delivered_Date: '',
+      Estimated_Delivered_Time: '',
+      BayIn_Time: '',
+      BayIn_Date: '',
+      BayOut_Date: '',
+      BayOut_Time: '',
+      Technician_Name: '',
+      Job_Card_Prepared_by: '',
+      Accessorie_RearViewMirror: false,
+      Accessories_ToolKitJack: false,
+      Accessories_Battery: false,
+      Accessories_Fan: false,
+      Accessories_RubberMats: false,
+      Accessories_SunShield: false,
+      Accessories_SpareWheel: false,
+      Accessories_WheelCase: false,
+      Accessories_AudioSystem: false,
+      Accessories_Fuel: false,
+      Accessories_Quantity: false,
+      DamageifAny: '',
+      Remarks: '',
     });
   }
 }

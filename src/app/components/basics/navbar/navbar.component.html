@@ -14,12 +14,8 @@
                         </button>
                         <div ngbDropdownMenu aria-labelledby="dropdownManual">
                             <div ngbDropdownItem class="userProfileDetails">
-                                <div class="name">Ajay Kumar</div>
-                                <div class="post">Admin</div>
+                                <div class="name">{{userInfoData?.name || 'User Name'}}</div>
                             </div>
-                            <a class="link text-decoration-none" routerLink="/profile">
-                                <div ngbDropdownItem> Profile </div>
-                            </a>
                             <a class="link text-decoration-none" routerLink="/changePassword">
                                 <div ngbDropdownItem> Change Password </div>
                             </a>

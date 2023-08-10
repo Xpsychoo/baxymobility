@@ -54,45 +54,57 @@
             <button type="button" (click)="resetForm()" class="btn btn-cancel">Refresh</button>
         </div>
     </form>
-    <div class="table-box" *ngIf="reportsList?.length">
-        <h2 class="table-head">Stock Receiving Reports</h2>
-        <div class="tablewrapper">
-            <table class="table table-striped table-responsive">
-                <thead>
-                    <tr>
-                        <th>Invoice Number</th>
-                        <th>Line Item</th>
-                        <th>Vendor Code </th>
-                        <th>Material Code</th>
-                        <th>Material Description</th>
-                        <th>Chassis Number</th>
-                        <th>EngineNumber</th>
-                        <th>Receiving Status</th>
-                        <th>Remarks</th>
-                        <th>Missed Items List</th>
-                        <th>Attachment (1)</th>
-                        <th>Attachment (2)</th>
-                        <th>Attachment (3)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of reportsList">
-                        <td>{{item.InvoiceNumber}}</td>
-                        <td>{{item.LineItem}}</td>
-                        <td>{{item.VendorCode}}</td>
-                        <td>{{item.MaterialCode}}</td>
-                        <td>{{item.MaterialDescrition}}</td>
-                        <td>{{item.ChassisNumber}}</td>
-                        <td>{{item.EngineNumber}}</td>
-                        <td>{{item.Receiving_Status}}</td>
-                        <td>{{item.Remarks}}</td>
-                        <td>{{item.MissedItems}}</td>
-                        <td [innerHTML]="validUrl(item.Attachment1_Name)"></td>
-                        <td [innerHTML]="validUrl(item.Attachment2_Name)"></td>
-                        <td [innerHTML]="validUrl(item.Attachment3_Name)"></td>
-                      </tr>
-                </tbody>
-            </table>
+    <ng-container *ngIf="reportsList?.length; else notext">
+        <div class="table-box">
+            <div class="table-heads">
+                <h2 class="table-head">Stock Receiving Reports</h2>
+                <button class="btn btn-success download-btn" 
+                title="Download to Excel"
+                type="button" (click)="download()">
+                    <i class="fas fa-file-excel"></i>
+                </button>
+            </div>
+            <div class="tablewrapper">
+                <table class="table table-striped table-responsive" #table>
+                    <thead>
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Line Item</th>
+                            <th>Vendor Code </th>
+                            <th>Material Code</th>
+                            <th>Material Description</th>
+                            <th>Chassis Number</th>
+                            <th>EngineNumber</th>
+                            <th>Receiving Status</th>
+                            <th>Remarks</th>
+                            <th>Missed Items List</th>
+                            <th>Attachment (1)</th>
+                            <th>Attachment (2)</th>
+                            <th>Attachment (3)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of reportsList">
+                            <td>{{item.InvoiceNumber}}</td>
+                            <td>{{item.LineItem}}</td>
+                            <td>{{item.VendorCode}}</td>
+                            <td>{{item.MaterialCode}}</td>
+                            <td>{{item.MaterialDescrition}}</td>
+                            <td>{{item.ChassisNumber}}</td>
+                            <td>{{item.EngineNumber}}</td>
+                            <td>{{item.Receiving_Status}}</td>
+                            <td>{{item.Remarks}}</td>
+                            <td>{{item.MissedItems}}</td>
+                            <td [innerHTML]="validUrl(item.Attachment1_Name)"></td>
+                            <td [innerHTML]="validUrl(item.Attachment2_Name)"></td>
+                            <td [innerHTML]="validUrl(item.Attachment3_Name)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </ng-container>
+    <ng-template #notext>
+        <p class="text-center p-5">No Data Found</p>
+    </ng-template>
 </div>

@@ -1,48 +1,53 @@
-<div class="tablewrapper">
-    <table class="table table-striped table-responsive">
-        <thead>
-            <tr>
-                <th>User Id</th>
-                <th>User Name</th>
-                <th>Contact No.</th>
-                <th>Email</th>
-                <th>Creation Date</th>
-                <th>Last Login Credentials</th>
-                <th>Login Status</th>
-                <th>Functional Area</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of usersData">
-                <td>{{ item.Secondary_Usercode }}</td>
-                <td>{{ item.UserName }}</td>
-                <td>{{ item.ContactNo }}</td>
-                <td>{{ item.Email }}</td>
-                <td>{{ item.LoginCredentialsGenerated }}</td>
-                <td>{{ item.LastLoginCredentialsUsed }}</td>
-                <td>
-                    <span [ngClass]="item.Status === 'Active' ? 'enable' : 'disable'">{{ item.Status }}</span>
-                </td>
-                <td>{{ item.Functional_Area_Name }}</td>
-                <td>
-                    <div class="action-buttons">
-                        <i class="fas fa-pen actBtn" title="Edit" (click)="editUser(item)"></i>
-                        <ng-container *ngIf="item.Status === 'Active'; else enableIcon">
-                            <i class="fas fa-ban disablebtn actBtn" title="Disable"
-                                (click)="enableDisable(item, false)"></i>
-                        </ng-container>
-                        <ng-template #enableIcon>
-                            <i class="fas fa-check-circle enablebtn actBtn" title="Enable"
-                                (click)="enableDisable(item, true)"></i>
-                        </ng-template>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<ng-container *ngIf="usersData?.length; else noDataFound">
+    <div class="tablewrapper">
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>User Name</th>
+                    <th>Contact No.</th>
+                    <th>Email</th>
+                    <th>Creation Date</th>
+                    <th>Last Login Credentials</th>
+                    <th>Login Status</th>
+                    <th>Functional Area</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of usersData">
+                    <td>{{ item.Secondary_Usercode }}</td>
+                    <td>{{ item.UserName }}</td>
+                    <td>{{ item.ContactNo }}</td>
+                    <td>{{ item.Email }}</td>
+                    <td>{{ item.LoginCredentialsGenerated }}</td>
+                    <td>{{ item.LastLoginCredentialsUsed }}</td>
+                    <td>
+                        <span [ngClass]="item.Status === 'Active' ? 'enable' : 'disable'">{{ item.Status }}</span>
+                    </td>
+                    <td>{{ item.Functional_Area_Name }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <i class="fas fa-pen actBtn" title="Edit" (click)="editUser(item)"></i>
+                            <ng-container *ngIf="item.Status === 'Active'; else enableIcon">
+                                <i class="fas fa-ban disablebtn actBtn" title="Disable"
+                                    (click)="enableDisable(item, false)"></i>
+                            </ng-container>
+                            <ng-template #enableIcon>
+                                <i class="fas fa-check-circle enablebtn actBtn" title="Enable"
+                                    (click)="enableDisable(item, true)"></i>
+                            </ng-template>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-</div>
+    </div>
+</ng-container>
+<ng-template #noDataFound>
+    <p class="text-center p-5">No Data Found</p>
+</ng-template>
 <app-confirmbox [confirmText]="actionType ? 'Enable' : 'Disable'" *ngIf="confirmBox"
     (setConfirmBox)="setConfirmBox(false)" (submitFunc)="disableToggle()">
 </app-confirmbox>

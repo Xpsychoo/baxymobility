@@ -12,6 +12,12 @@ export class FormDataService {
         { value: 'Accident Job', id: 'Accident_Job', label: 'Accident Job' }
     ];
 
+    customerFields = [
+        { id: 'Customer_Name', label: 'Customer Name', type: 'text', name: 'Customer_Name', placeholder: 'Enter Customer Name' },
+        { id: 'Customer_Mobile_No', label: 'Customer Mobile No', type: 'number', name: 'Customer_Mobile_No', placeholder: 'Enter Customer Mobile No' },
+        { id: 'Address', label: 'Address', type: 'text', name: 'Address', placeholder: 'Enter Customer Address' }
+    ];
+
     accessories = [
         { formControlName: 'Accessorie_RearViewMirror', id: 'Accessorie_RearViewMirror', label: 'Rear View Mirror' },
         { formControlName: 'Accessories_ToolKitJack', id: 'Accessories_ToolKitJack', label: 'Tool Kit & Jack' },
@@ -47,6 +53,6 @@ export class FormDataService {
         { type: 'number', id: 'Year_of_Mfg', formControlName: 'Year_of_Mfg', label: 'Year of Mfg', placeholder: 'YYYY', min: 1800, max: 2023 },
         { type: 'text', id: 'Engine_No', formControlName: 'Engine_No', label: 'Engine No.', placeholder: 'Enter Engine No.' },
         { type: 'date', id: 'Date_of_Sale', formControlName: 'Date_of_Sale', label: 'Date of Sale', placeholder: 'Enter Date of Sale' },
-        { type: 'number', id: 'kms_covered', formControlName: 'kms_covered', label: 'Kms. Covered', placeholder: 'Enter Kms. Covered' },
+        { type: 'number', id: 'Kms_Covered', formControlName: 'Kms_Covered', label: 'Kms. Covered', placeholder: 'Enter Kms. Covered' },
     ];
 }

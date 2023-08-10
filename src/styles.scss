@@ -115,7 +115,8 @@ body {
     line-height: 1.35;
     border-radius: 0px;
     cursor: pointer;
-
+    
+    &.btn-secondary,
     &.btn-cancel,
     &.btn-primary,
     &.btn-danger {
@@ -189,6 +190,11 @@ p {
         font-size: 14px;
         font-weight: normal;
         line-height: 1.35;
+
+        &.disable {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
     }
 
     .radioboxwrapper {
@@ -312,6 +318,20 @@ p {
         font-weight: 600;
     }
 }
+.table-heads{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    .table-head{
+        margin-bottom: 0px;
+    }
+}
+.download-btn{
+    padding: 5px 5px 0px;
+    margin-left: 10px;
+    border-radius: 3px;
+}
 
 .table-box {
     width: 100%;
@@ -344,11 +364,23 @@ p {
                 @include disableTag();
             }
 
-            thead>tr>th {
-                background-color: #8e8e8e;
-                color: #fff;
-                white-space: nowrap;
-                padding: 10px;
+            thead {
+                tr {
+                    th {
+                        background-color: #8e8e8e;
+                        color: #fff;
+                        white-space: nowrap;
+                        padding: 10px;
+
+                        &:first-child {
+                            border-radius: 5px 0px 0px 0px;
+                        }
+        
+                        &:last-child {
+                            border-radius: 0px 5px 0px 0px;
+                        }
+                    }
+                }
             }
 
             .action-buttons {
@@ -513,7 +545,8 @@ p {
 
 
     }
-    .filter-box .btn-box{
+
+    .filter-box .btn-box {
         display: flex;
         align-items: center;
     }
